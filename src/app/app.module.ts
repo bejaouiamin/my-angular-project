@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,7 +13,6 @@ import { HttpTokenInterceptor } from './services/interceptor/http-token.intercep
 @NgModule({
   declarations: [
     AppComponent,
-    ContactComponent,
     HomeComponent
   ],
   imports: [
