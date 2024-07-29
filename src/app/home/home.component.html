@@ -3,18 +3,14 @@
 
     <!-- Main Header-->
     <header class="main-header header-style-one">
-
-        <!-- Header Upper -->
         <div class="header-upper">
             <div class="auto-container">
                 <div class="clearfix">
-
                     <div class="logo-box">
                         <div class="logo">
                             <a href="#"><img src="assets/images/logo.png" alt="" title=""></a>
                         </div>
                     </div>
-
                     <div class="pull-left number-box">
                         <div class="number">
                             <span class="icon"><img src="assets/images/icons/phone-call.png" alt=""
@@ -22,29 +18,30 @@
                             <a class="playwrite">Edupro</a>
                         </div>
                     </div>
-
                     <div class="nav-outer clearfix">
                         <!-- Mobile Navigation Toggler -->
-                        <div class="mobile-nav-toggler">
+                        <div class="mobile-nav-toggler" *ngIf="!isLoggedIn">
                             <a class="btn theme-btn btn-style-two" data-toggle="modal"
                                 data-target=".login-register-form" style="margin-left: -80%;border:0;">
                                 <span class="txt" style="color: #fefffd;"><i class="fa fa-user"
                                         style="margin-right: 7%;"></i>Login</span>
                             </a>
                         </div>
-
-
+                        <div *ngIf="isLoggedIn" class="dropdown">
+                            <button class="btn theme-btn btn-style-two dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 92%;margin-top: -10%; color:white">
+                                <span class="txt" style="color: #fefffd;"><i class="fa fa-user" ></i></span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" (click)="logout()">Logout</a>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-        <!-- End Header Upper -->
-
-        <!-- Mobile Menu  -->
-
-        <!-- End Mobile Menu -->
-
     </header>
     <!-- End Main Header -->
 
@@ -156,7 +153,8 @@
                         </div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business tool for your
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business tool for
+                                    your
                                     customer</a>
                             </h3>
 
@@ -232,7 +230,8 @@
                                 src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people success master
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people
+                                    success master
                                     plan</a>
                             </h3>
 
@@ -270,7 +269,8 @@
                                 src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Results professional report</a>
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Results professional
+                                    report</a>
                             </h3>
 
                             <div class="meta meta-style2">
@@ -286,7 +286,7 @@
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user" ></i>
+                                            <i class="fa fa-user"></i>
                                             User</a>
                                     </li>
                                     <li class="list-inline-item">
@@ -307,7 +307,8 @@
                                 src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3" style="text-decoration-line: inherit;">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business strategy concept</a>
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business strategy
+                                    concept</a>
                             </h3>
 
                             <div class="meta meta-style2">
@@ -344,11 +345,12 @@
                                 src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people meeting</a>
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people
+                                    meeting</a>
                             </h3>
 
                             <div class="meta meta-style2">
-                                <ul class="list-inline" >
+                                <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <a href="#!" style="color: #3d3d3c;">
                                             <i class="fa fa-calendar"></i>
@@ -629,79 +631,191 @@
         </div>
     </footer>
 
- <!-- Login / Register Modal -->
-<div class="modal fade login-register-form" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="authModalLabel">Authentication</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" id="authTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login-form" role="tab" aria-controls="login-form" aria-selected="true">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#registration-form" role="tab" aria-controls="registration-form" aria-selected="false">Register</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="authTabContent">
-                    <div class="tab-pane fade show active" id="login-form" role="tabpanel" aria-labelledby="login-tab">
-                        <form class="form-signin">
-                            <h1 class="h3 mb-3 text-center">Sign in</h1>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn-block" type="button"><i class="fa fa-facebook-f"></i> Sign in with Facebook</button>
-                                <button class="btn btn-danger btn-block" type="button"><i class="fa fa-google"></i> Sign in with Google</button>
-                            </div>
-                            <p class="text-center my-3">OR</p>
-                            <div class="mb-3">
-                                <label for="inputEmail" class="form-label">Email address</label>
-                                <input [(ngModel)]="authRequest.email" [ngModelOptions]="{standalone: true}" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                            </div>
-                            <div class="mb-3">
-                                <label for="inputPassword" class="form-label">Password</label>
-                                <input [(ngModel)]="authRequest.password" [ngModelOptions]="{standalone: true}" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                            </div>
-                            <button (click)="login()" class="btn btn-success btn-block" type="submit">Sign in</button>
-                            <a href="#" id="forgot_pswd" class="d-block mt-2">Forgot password?</a>
-                        </form>
-                    </div>
-                    <div class="tab-pane fade" id="registration-form" role="tabpanel" aria-labelledby="register-tab">
-                        <form class="form-signup">
-                            <h1 class="h3 mb-3 text-center">Sign Up</h1>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn-block" type="button"><i class="fa fa-facebook-f"></i> Sign up with Facebook</button>
-                                <button class="btn btn-danger btn-block" type="button"><i class="fa fa-google"></i> Sign up with Google</button>
-                            </div>
-                            <p class="text-center my-3">OR</p>
-                            <div class="mb-3">
-                                <label for="user-name" class="form-label">Full name</label>
-                                <input type="text" id="user-name" class="form-control" placeholder="Full name" required autofocus>
-                            </div>
-                            <div class="mb-3">
-                                <label for="user-email" class="form-label">Email address</label>
-                                <input type="email" id="user-email" class="form-control" placeholder="Email address" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="user-pass" class="form-label">Password</label>
-                                <input type="password" id="user-pass" class="form-control" placeholder="Password" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="user-repeatpass" class="form-label">Repeat Password</label>
-                                <input type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" required>
-                            </div>
-                            <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
-                            
-                        </form>
+    <!-- Login / Register Modal -->
+    <div class="modal fade login-register-form" id="authModal" tabindex="-1" role="dialog"
+        aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Authentication</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="authTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login-form" role="tab"
+                                aria-controls="login-form" aria-selected="true">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="register-tab" data-toggle="tab" href="#registration-form" role="tab"
+                                aria-controls="registration-form" aria-selected="false">Register</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabContent">
+                        <div class="tab-pane fade show active" id="login-form" role="tabpanel"
+                            aria-labelledby="login-tab">
+                            <form class="form-signin">
+                                <h1 class="h3 mb-3 text-center">Sign in</h1>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-danger btn-block" type="button"><i class="fa fa-google"></i>
+                                        Sign in with Google</button>
+                                </div>
+                                <p class="text-center my-3">OR</p>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email address</label>
+                                    <input [(ngModel)]="authRequest.email" [ngModelOptions]="{standalone: true}"
+                                        type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                                        required autofocus>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPassword" class="form-label">Password</label>
+                                    <input [(ngModel)]="authRequest.password" [ngModelOptions]="{standalone: true}"
+                                        type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                        required>
+                                </div>
+                                <button (click)="login()" class="btn btn-success btn-block" type="submit">Sign
+                                    in</button>
+                                <a href="#" id="forgot_pswd" class="d-block mt-2">Forgot password?</a>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="registration-form" role="tabpanel"
+                            aria-labelledby="register-tab">
+                            <form class="form-signup" [formGroup]="registrationForm">
+                                <h1 class="h3 mb-3 text-center">Sign Up</h1>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-danger btn-block" type="button">
+                                        <i class="fa fa-google"></i> Sign up with Google
+                                    </button>
+                                </div>
+                                <p class="text-center my-3">OR</p>
+
+                                <div class="mb-3">
+                                    <label for="firstName">First Name:</label>
+                                    <input [(ngModel)]="registerRequest.firstName" type="text" id="firstName"
+                                        class="form-control" placeholder="First Name" formControlName="firstName" />
+                                    <div
+                                        *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched">
+                                        <small *ngIf="registrationForm.get('firstName')?.errors?.['required']"
+                                            class="error-message">First Name is required.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Last Name:</label>
+                                    <input [(ngModel)]="registerRequest.lastName" type="text" id="lastName"
+                                        class="form-control" placeholder="Last name" formControlName="lastName" />
+                                    <div
+                                        *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched">
+                                        <small *ngIf="registrationForm.get('lastName')?.errors?.['required']"
+                                            class="error-message">Last Name is required.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="dateOfBirth">Date of Birth:</label>
+                                    <input [(ngModel)]="registerRequest.dateOfBirth" type="date" id="dateOfBirth"
+                                        class="form-control" formControlName="dateOfBirth" />
+                                    <div
+                                        *ngIf="registrationForm.get('dateOfBirth')?.invalid && registrationForm.get('dateOfBirth')?.touched">
+                                        <small *ngIf="registrationForm.get('dateOfBirth')?.errors?.['required']"
+                                            class="error-message">Date of Birth is required.</small>
+                                        <small *ngIf="registrationForm.get('dateOfBirth')?.errors?.['underage']"
+                                            class="error-message">You must be at least 18 years old.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address:</label>
+                                    <input [(ngModel)]="registerRequest.email" type="email" id="email"
+                                        class="form-control" placeholder="Email address" formControlName="email" />
+                                    <div
+                                        *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+                                        <small *ngIf="registrationForm.get('email')?.errors?.['required']"
+                                            class="error-message">Email is required.</small>
+                                        <small *ngIf="registrationForm.get('email')?.errors?.['email']"
+                                            class="error-message">Enter a valid email.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input [(ngModel)]="registerRequest.password" type="password" id="password"
+                                        class="form-control" placeholder="Password" formControlName="password" />
+                                    <div
+                                        *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+                                        <small *ngIf="registrationForm.get('password')?.errors?.['required']"
+                                            class="error-message">Password is required.</small>
+                                        <small *ngIf="registrationForm.get('password')?.errors?.['passwordTooShort']"
+                                            class="error-message">Password must be at least 8 characters.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="repeatPassword" class="form-label">Repeat Password:</label>
+                                    <input type="password" id="repeatPassword" class="form-control"
+                                        placeholder="Repeat Password" formControlName="repeatPassword" />
+                                    <div
+                                        *ngIf="registrationForm.errors?.['passwordMismatch'] && registrationForm.get('repeatPassword')?.touched">
+                                        <small class="error-message">Passwords must match.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="adress" class="form-label">Address:</label>
+                                    <input [(ngModel)]="registerRequest.adress" type="text" id="adress"
+                                        class="form-control" placeholder="Address" formControlName="adress" />
+                                    <div
+                                        *ngIf="registrationForm.get('adress')?.invalid && registrationForm.get('adress')?.touched">
+                                        <small *ngIf="registrationForm.get('adress')?.errors?.['required']"
+                                            class="error-message">Address is required.</small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone:</label>
+                                    <input [(ngModel)]="registerRequest.phone" type="text" id="phone"
+                                        class="form-control" placeholder="Phone" formControlName="phone" />
+                                    <div
+                                        *ngIf="registrationForm.get('phone')?.invalid && registrationForm.get('phone')?.touched">
+                                        <small *ngIf="registrationForm.get('phone')?.errors?.['required']"
+                                            class="error-message">Phone is required.</small>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <fieldset>
+                                        <label class="form-label">Role</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="role" id="etudiant"
+                                                value="ETUDIANT" formControlName="role"
+                                                [(ngModel)]="registerRequest.role" checked="">
+                                            <label class="form-check-label" for="etudiant">Etudiant</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="role" id="tuteur"
+                                                value="TUTEUR" formControlName="role"
+                                                [(ngModel)]="registerRequest.role">
+                                            <label class="form-check-label" for="tuteur">Tuteur</label>
+                                        </div>
+                                    </fieldset>
+                                    <div
+                                        *ngIf="registrationForm.get('role')?.invalid && registrationForm.get('role')?.touched">
+                                        <small class="error-message">Role is required.</small>
+                                    </div>
+                                </div>
+
+
+                                <button (click)="register()" class="btn btn-primary btn-block" type="submit">Sign
+                                    Up</button>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 </div>

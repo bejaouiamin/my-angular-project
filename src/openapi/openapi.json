@@ -1,744 +1,750 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "title": "OpenApi specification - bejaoui",
-      "description": "OpenApi documentation for Spring Security",
-      "termsOfService": "Terms of service",
-      "contact": {
-        "name": "Mohamed Amine bejaoui",
-        "email": "bejaouimohamed.work@gmail.com"
-      },
-      "license": {
-        "name": "Licence name",
-        "url": "https://some-url.com"
-      },
-      "version": "1.0"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenApi specification - bejaoui",
+    "description": "OpenApi documentation for Spring Security",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "Mohamed Amine bejaoui",
+      "email": "bejaouimohamed.work@gmail.com"
     },
-    "servers": [
-      {
-        "url": "http://localhost:8080",
-        "description": "Local ENV"
-      },
-      {
-        "description": "PROD ENV"
-      }
-    ],
-    "security": [
-      {
-        "bearerAuth": []
-      }
-    ],
-    "paths": {
-      "/api/user/{id}": {
-        "get": {
-          "tags": [
-            "usercontroller"
-          ],
-          "operationId": "getUserById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
+    "license": {
+      "name": "Licence name",
+      "url": "https://some-url.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local ENV"
+    },
+    {
+      "description": "PROD ENV"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/user/{id}": {
+      "get": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
-        "put": {
-          "tags": [
-            "usercontroller"
-          ],
-          "operationId": "updateUtilisateur",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "requestBody": {
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
               }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "delete": {
-          "tags": [
-            "usercontroller"
-          ],
-          "operationId": "deleteUser",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
             }
           }
         }
       },
-      "/api/tuteurs/{id}": {
-        "get": {
-          "tags": [
-            "tuteurcontroller"
-          ],
-          "operationId": "getTuteurById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Tuteur"
-                  }
-                }
-              }
+      "put": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "updateUtilisateur",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
-        "put": {
-          "tags": [
-            "tuteurcontroller"
-          ],
-          "operationId": "updateTuteur",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
-                "type": "integer",
-                "format": "int32"
+                "$ref": "#/components/schemas/User"
               }
             }
-          ],
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tuteur"
-                }
-              }
-            },
-            "required": true
           },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Tuteur"
-                  }
-                }
-              }
-            }
-          }
+          "required": true
         },
-        "delete": {
-          "tags": [
-            "tuteurcontroller"
-          ],
-          "operationId": "deleteTuteur",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            }
-          }
-        }
-      },
-      "/api/etudiants/{id}": {
-        "get": {
-          "tags": [
-            "etudiantcontroller"
-          ],
-          "operationId": "getÉtudiantById",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Etudiant"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "put": {
-          "tags": [
-            "etudiantcontroller"
-          ],
-          "operationId": "updateÉtudiant",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "requestBody": {
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Etudiant"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Etudiant"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "delete": {
-          "tags": [
-            "etudiantcontroller"
-          ],
-          "operationId": "deleteÉtudiant",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            }
-          }
-        }
-      },
-      "/api/user/adduser": {
-        "post": {
-          "tags": [
-            "usercontroller"
-          ],
-          "operationId": "createUtilisateur",
-          "requestBody": {
-            "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
               }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
             }
           }
         }
       },
-      "/api/tuteurs/addTuteur": {
-        "post": {
-          "tags": [
-            "tuteurcontroller"
-          ],
-          "operationId": "createTuteur",
-          "requestBody": {
+      "delete": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tuteurs/{id}": {
+      "get": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "getTuteurById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/Tuteur"
                 }
               }
-            },
-            "required": true
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "updateTuteur",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tuteur"
+              }
+            }
           },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Tuteur"
-                  }
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tuteur"
                 }
               }
             }
           }
         }
       },
-      "/api/etudiants": {
-        "get": {
-          "tags": [
-            "etudiantcontroller"
-          ],
-          "operationId": "getAllEtudiants",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Etudiant"
-                    }
-                  }
-                }
-              }
+      "delete": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "deleteTuteur",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
-        "post": {
-          "tags": [
-            "etudiantcontroller"
-          ],
-          "operationId": "createÉtudiant",
-          "requestBody": {
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/etudiants/{id}": {
+      "get": {
+        "tags": [
+          "etudiantcontroller"
+        ],
+        "operationId": "getÉtudiantById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/Etudiant"
                 }
               }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Etudiant"
-                  }
-                }
-              }
             }
           }
         }
       },
-      "/api/auth/register": {
-        "post": {
-          "tags": [
-            "auth-controller"
-          ],
-          "operationId": "register",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationRequest"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "202": {
-              "description": "Accepted",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "type": "object"
-                  }
-                }
-              }
+      "put": {
+        "tags": [
+          "etudiantcontroller"
+        ],
+        "operationId": "updateÉtudiant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        }
-      },
-      "/api/auth/login": {
-        "post": {
-          "tags": [
-            "auth-controller"
-          ],
-          "operationId": "login",
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthenticationRequest"
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AuthenticationResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/user": {
-        "get": {
-          "tags": [
-            "usercontroller"
-          ],
-          "operationId": "getAllUser",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/User"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/tuteurs": {
-        "get": {
-          "tags": [
-            "tuteurcontroller"
-          ],
-          "operationId": "getAllTuteurs",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "*/*": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Tuteur"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/auth/activate-account": {
-        "get": {
-          "tags": [
-            "auth-controller"
-          ],
-          "operationId": "confirm",
-          "parameters": [
-            {
-              "name": "token",
-              "in": "query",
-              "required": true,
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/Etudiant"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etudiant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "etudiantcontroller"
+        ],
+        "operationId": "deleteÉtudiant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/adduser": {
+      "post": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "createUtilisateur",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
             }
           }
         }
       }
     },
-    "components": {
-      "schemas": {
-        "GrantedAuthority": {
-          "type": "object",
-          "properties": {
-            "authority": {
-              "type": "string"
-            }
-          }
-        },
-        "User": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "firstName": {
-              "type": "string"
-            },
-            "lastName": {
-              "type": "string"
-            },
-            "dateOfBirth": {
-              "type": "string",
-              "format": "date"
-            },
-            "accountLocked": {
-              "type": "boolean"
-            },
-            "enabled": {
-              "type": "boolean"
-            },
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            },
-            "role": {
-              "type": "string",
-              "enum": [
-                "TUTEUR",
-                "ETUDIANT"
-              ]
-            },
-            "picture": {
-              "type": "string"
-            },
-            "bio": {
-              "type": "string"
-            },
-            "adress": {
-              "type": "string"
-            },
-            "phone": {
-              "type": "string"
-            },
-            "createdDate": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "lastModifiedDate": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "name": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "authorities": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/GrantedAuthority"
+    "/api/tuteurs/addTuteur": {
+      "post": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "createTuteur",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tuteur"
               }
-            },
-            "credentialsNonExpired": {
-              "type": "boolean"
-            },
-            "accountNonExpired": {
-              "type": "boolean"
-            },
-            "accountNonLocked": {
-              "type": "boolean"
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tuteur"
+                }
+              }
             }
           }
-        },
-        "Tuteur": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "user": {
-              "$ref": "#/components/schemas/User"
-            },
-            "title": {
-              "type": "string"
-            },
-            "educationlevel": {
-              "type": "string"
-            },
-            "experience": {
-              "type": "string"
-            },
-            "availability": {
-              "type": "string"
-            }
-          }
-        },
-        "Etudiant": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "user": {
-              "$ref": "#/components/schemas/User"
-            },
-            "educationlevel": {
-              "type": "string"
-            },
-            "objectif": {
-              "type": "string"
-            }
-          }
-        },
-        "RegistrationRequest": {
-          "type": "object",
-          "properties": {
-            "firstName": {
-              "type": "string"
-            },
-            "lastName": {
-              "type": "string"
-            },
-            "dateOfBirth": {
-              "type": "string",
-              "format": "date"
-            },
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            },
-            "role": {
-              "type": "string",
-              "enum": [
-                "TUTEUR",
-                "ETUDIANT"
-              ]
-            },
-            "adress": {
-              "type": "string"
-            },
-            "phone": {
-              "type": "string"
-            }
-          }
-        },
-        "AuthenticationRequest": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            }
-          }
-        },
-        "AuthenticationResponse": {
-          "type": "object",
-          "properties": {
-            "token": {
-              "type": "string"
+        }
+      }
+    },
+    "/api/etudiants": {
+      "get": {
+        "tags": [
+          "etudiantcontroller"
+        ],
+        "operationId": "getAllEtudiants",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Etudiant"
+                  }
+                }
+              }
             }
           }
         }
       },
-      "securitySchemes": {
-        "bearerAuth": {
-          "type": "http",
-          "description": "JWT auth description",
-          "in": "header",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
+      "post": {
+        "tags": [
+          "etudiantcontroller"
+        ],
+        "operationId": "createÉtudiant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Etudiant"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etudiant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "getAllUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tuteurs": {
+      "get": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "getAllTuteurs",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tuteur"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/activate-account": {
+      "get": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "confirm",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "accountLocked": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "TUTEUR",
+              "ETUDIANT"
+            ]
+          },
+          "picture": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "adress": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Tuteur": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "educationlevel": {
+            "type": "string"
+          },
+          "experience": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          }
+        }
+      },
+      "Etudiant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "educationlevel": {
+            "type": "string"
+          },
+          "objectif": {
+            "type": "string"
+          }
+        }
+      },
+      "RegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "TUTEUR",
+              "ETUDIANT"
+            ]
+          },
+          "picture": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "adress": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "JWT auth description",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   }
+}

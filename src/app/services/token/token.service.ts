@@ -8,8 +8,12 @@ export class TokenService {
 
   constructor() { }
 
-  set token(token: string) {
-    localStorage.setItem('token', token);
+  set token(token: string | null) {
+    if (token === null) {
+      localStorage.removeItem('token');
+    } else {
+      localStorage.setItem('token', token);
+    }
   }
 
   get token() {
@@ -33,6 +37,17 @@ export class TokenService {
 
   isTokenNotValid() {
     return !this.isTokenValid();
+  }
+
+  get userRoles(): string[] {
+    const token = this.token;
+    if (token) {
+      const jwtHelper = new JwtHelperService();
+      const decodedToken = jwtHelper.decodeToken(token);
+      console.log(decodedToken.authorities);
+      return decodedToken.authorities;
+    }
+    return [];
   }
 
   

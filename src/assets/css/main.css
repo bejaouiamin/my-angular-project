@@ -3491,7 +3491,7 @@ img {
     color: #323338;
     padding: 15px 20px;
     border: 1px solid #c2c2c2;
-  
+
 }
 
 .archive-widget .form-group:before {
@@ -4331,11 +4331,33 @@ img {
     padding-top: 0;
 }
 
-.form-signin, .form-signup {
+.form-signin,
+.form-signup {
     max-width: 400px;
     margin: auto;
 }
 
 .btn-block {
     width: 100%;
+}
+
+.error-message {
+    color: red;
+}
+
+.dropdown-menu {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px #ffffff;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #28a745;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #28a745;
+    color: #ffffff;
 }
