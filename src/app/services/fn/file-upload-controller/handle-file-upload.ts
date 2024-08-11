@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface HandleFileUpload$Params {
+  userId: number;
+      body?: {
+'file': Blob;
+}
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function handleFileUpload(http: HttpClient, rootUrl: string, params: HandleFileUpload$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, handleFileUpload.PATH, 'post');
   if (params) {
+    rb.path('userId', params.userId, {});
     rb.body(params.body, 'application/json');
   }
 
@@ -30,4 +33,4 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   );
 }
 
-register.PATH = '/api/auth/register';
+handleFileUpload.PATH = '/api/File/upload/{userId}';

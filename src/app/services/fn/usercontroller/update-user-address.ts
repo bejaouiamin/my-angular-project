@@ -6,16 +6,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
+import { User } from '../../models/user';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface UpdateUserAddress$Params {
+  userId: number;
+      body: string
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+export function updateUserAddress(http: HttpClient, rootUrl: string, params: UpdateUserAddress$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+  const rb = new RequestBuilder(rootUrl, updateUserAddress.PATH, 'put');
   if (params) {
+    rb.path('userId', params.userId, {});
     rb.body(params.body, 'application/json');
   }
 
@@ -24,10 +25,9 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<User>;
     })
   );
 }
 
-register.PATH = '/api/auth/register';
+updateUserAddress.PATH = '/api/user/{userId}/update-address';

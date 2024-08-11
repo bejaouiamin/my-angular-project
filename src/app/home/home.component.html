@@ -28,12 +28,13 @@
                             </a>
                         </div>
                         <div *ngIf="isLoggedIn" class="dropdown">
-                            <button class="btn theme-btn btn-style-two dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 92%;margin-top: -10%; color:white">
-                                <span class="txt" style="color: #fefffd;"><i class="fa fa-user" ></i></span>
+                            <button class="btn theme-btn btn-style-two dropdown-toggle" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin-left: 92%;margin-top: -10%; color:white">
+                                <span class="txt" style="color: #fefffd;"><i class="fa fa-user"></i></span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" [routerLink]="['/profile', userId]">Profile</a>
                                 <a class="dropdown-item" href="#">Settings</a>
                                 <a class="dropdown-item" (click)="logout()">Logout</a>
                             </div>
@@ -54,7 +55,7 @@
                 <div class="inner-column">
                     <h1>We Are The Leaders In The
                         <br>
-                        Online Education
+                        Private Education
                     </h1>
                     <!-- Education Form -->
                     <div class="education-form">
@@ -63,11 +64,11 @@
                             <div class="clearfix">
                                 <div class="form-group clearfix">
                                     <select class="custom-select-box ui-selectmenu-button ui-button">
-                                        <option style="color: black;">Categories</option>
-                                        <option style="color: black;">Category 01</option>
-                                        <option style="color: black;">Category 02</option>
-                                        <option style="color: black;">Category 03</option>
-                                        <option style="color: black;">Category 04</option>
+                                        <option style="color: black;">Course</option>
+                                        <option style="color: black;">Graphic Designs</option>
+                                        <option style="color: black;">Business</option>
+                                        <option style="color: black;">Digital Marketing</option>
+                                        <option style="color: black;">Fitness</option>
                                     </select>
                                     <input type="text" name="username" placeholder="Search Courses…" required="">
                                     <button class="submit-btn icofont-search" type="submit" name="submit-form"></button>
@@ -114,7 +115,7 @@
                         blandit lorem, ut tristique
                     </p>
                     <div class="buttons-box1 " style="margin-top: 5%;">
-                        <a href="#" class="btn theme-btn btn-style-one bg-primary"
+                        <a routerLink="/teachers" class="btn theme-btn btn-style-one bg-primary"
                             style="text-decoration: none; cursor: pointer; color: #fefffd; margin-right: 15px;margin-bottom: 15px;">
                             <span class="txt">Start Course Now</span>
                         </a>
@@ -139,240 +140,47 @@
     <!-- Courses Section -->
     <section class="courses-section">
         <div class="sec-title centered">
-            <h2>New Courses</h2>
+            <h2>Private Teachers</h2>
         </div>
 
         <div class="container">
             <div class="row mt-n5">
-
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".2s"
+                <div *ngFor="let user of users" class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".2s"
                     style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                     <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/284115823_5240682716028835_3853424653577621827_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=DRZ4fd6YttYQ7kNvgHWE1ma&_nc_ht=scontent.ftun14-1.fna&oh=00_AYCZA_58d_ZO_X47EYBWyl_zARTM70wtpRFqtkTwxVCwLQ&oe=669F098D">
+                        <div class="blog-grid-img position-relative">
+                            <img alt="img" [src]="getPictureUrl(user.picture)" >
+
                         </div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business tool for
-                                    your
-                                    customer</a>
+                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">{{ user.firstName }}
+                                    {{ user.lastName }}</a>
                             </h3>
+                            <p class="display-30">Exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
 
                             <div class="meta meta-style2">
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <a href="#!" style="color: #3d3d3c;">
                                             <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>2020
+                                            {{ user.dateOfBirth | date }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="#!" style="color: #3d3d3c;">
                                             <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".4s"
-                    style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                    <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
-                        <div class="blog-grid-text p-4">
-                            <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Growth your business
-                                    strategy</a>
-                            </h3>
-
-                            <div class="meta meta-style2">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>
+                                            {{ user.role }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
                                             <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".6s"
-                    style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
-                    <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
-                        <div class="blog-grid-text p-4">
-                            <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people
-                                    success master
-                                    plan</a>
-                            </h3>
-
-                            <div class="meta meta-style2">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>2020
+                                            68
                                         </a>
                                     </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
                                 </ul>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".8s"
-                    style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;">
-                    <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
-                        <div class="blog-grid-text p-4">
-                            <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Results professional
-                                    report</a>
-                            </h3>
-
-                            <div class="meta meta-style2">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>2020
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay="1s"
-                    style="visibility: visible; animation-delay: 1s; animation-name: fadeInUp;">
-                    <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
-                        <div class="blog-grid-text p-4">
-                            <h3 class="h5 mb-3" style="text-decoration-line: inherit;">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business strategy
-                                    concept</a>
-                            </h3>
-
-                            <div class="meta meta-style2">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>2020
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay="1.2s"
-                    style="visibility: visible; animation-delay: 1.2s; animation-name: fadeInUp;">
-                    <div class="blog-grid">
-                        <div class="blog-grid-img position-relative"><img alt="img"
-                                src="https://www.bootdey.com/image/480x480/00FFFF/000000"></div>
-                        <div class="blog-grid-text p-4">
-                            <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">Business people
-                                    meeting</a>
-                            </h3>
-
-                            <div class="meta meta-style2">
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-calendar"></i>
-                                            25 Jun,
-                                            <script>
-                                                document.write(new Date().getFullYear())
-                                            </script>2020
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-user"></i>
-                                            User</a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
-                                            <i class="fa fa-comments"></i>
-                                            68</a>
-                                    </li>
-                                </ul>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -381,15 +189,13 @@
                 style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
                 <div class="col-12"></div>
             </div>
-
         </div>
 
         <!-- Lower Box -->
         <div class="lower-box text-center" style="margin-top: 1%;">
-            <a href="courses.html" class="courses">View all courses</a>
+            <a href="courses.html" class="courses">View all Teachers</a>
         </div>
-
-    </section>
+    </section> 
     <!-- End Courses Section -->
 
     <!-- Benefits Section -->
@@ -418,7 +224,7 @@
         <div class="auto-container">
             <!-- Sec Title -->
             <div class="sec-title centered">
-                <h2>Top Categories</h2>
+                <h2>private lessons</h2>
             </div>
             <div class="clearfix">
 
@@ -429,7 +235,7 @@
                             <img src="assets/images/resource/category-1.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="assets/course-detail.html">Graphic Designs</a>
+                                    <a href="#">Graphic Designs</a>
                                 </h4>
                             </div>
                         </div>
@@ -443,7 +249,7 @@
                             <img src="assets/images/resource/category-2.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="course-detail.html">Digital Marketing</a>
+                                    <a href="#">Digital Marketing</a>
                                 </h4>
                             </div>
                         </div>
@@ -457,7 +263,7 @@
                             <img src="assets/images/resource/category-3.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="course-detail.html">Financial Trading</a>
+                                    <a href="#">Financial Trading</a>
                                 </h4>
                             </div>
                         </div>
@@ -471,7 +277,7 @@
                             <img src="assets/images/resource/category-4.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="course-detail.html">Business</a>
+                                    <a href="#">Business</a>
                                 </h4>
                             </div>
                         </div>
@@ -485,7 +291,7 @@
                             <img src="assets/images/resource/category-5.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="course-detail.html">Office Productivity</a>
+                                    <a href="#">Office Productivity</a>
                                 </h4>
                             </div>
                         </div>
@@ -499,7 +305,7 @@
                             <img src="assets/images/resource/category-6.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="course-detail.html">Health & Fitness</a>
+                                    <a href="#">Health & Fitness</a>
                                 </h4>
                             </div>
                         </div>

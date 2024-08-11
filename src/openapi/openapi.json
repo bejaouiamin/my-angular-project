@@ -29,6 +29,47 @@
     }
   ],
   "paths": {
+    "/api/user/{userId}/update-address": {
+      "put": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "updateUserAddress",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/{id}": {
       "get": {
         "tags": [
@@ -305,6 +346,55 @@
         }
       }
     },
+    "/api/user/{userId}/upload-picture": {
+      "post": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "uploadUserPicture",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/adduser": {
       "post": {
         "tags": [
@@ -499,6 +589,29 @@
         }
       }
     },
+    "/api/user/role/tuteur": {
+      "get": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "getUsersByRoleTuteur",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/tuteurs": {
       "get": {
         "tags": [
@@ -515,6 +628,26 @@
                   "items": {
                     "$ref": "#/components/schemas/Tuteur"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -541,6 +674,37 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/delete-picture": {
+      "delete": {
+        "tags": [
+          "usercontroller"
+        ],
+        "operationId": "deleteUserPicture",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -593,7 +757,8 @@
             ]
           },
           "picture": {
-            "type": "string"
+            "type": "string",
+            "format": "byte"
           },
           "bio": {
             "type": "string"
@@ -624,10 +789,10 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "credentialsNonExpired": {
             "type": "boolean"
           },
-          "credentialsNonExpired": {
+          "accountNonExpired": {
             "type": "boolean"
           },
           "accountNonLocked": {
@@ -704,7 +869,8 @@
             ]
           },
           "picture": {
-            "type": "string"
+            "type": "string",
+            "format": "byte"
           },
           "bio": {
             "type": "string"

@@ -11,12 +11,17 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { HttpTokenInterceptor } from './services/interceptor/http-token.interceptor';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
 import { CodeInputModule } from 'angular-code-input';
+import { TeachersComponent } from './teachers/teachers.component';
+import { ProfileComponent } from './profile/profile.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    TeachersComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,7 @@ import { CodeInputModule } from 'angular-code-input';
     HttpClientModule,
     ReactiveFormsModule,
     CodeInputModule,
-    
+    GoogleMapsModule,
     
    
   ],

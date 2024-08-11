@@ -6,6 +6,8 @@ import { TokenService } from '../services/token/token.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { dateOfBirthValidator, passwordMatchValidator, passwordValidator } from 'src/validators/custom-validators';
 import { RegistrationRequest } from '../services/models/registration-request';
+import { User } from '../services/models';
+import { UsercontrollerService } from '../services/services';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ import { RegistrationRequest } from '../services/models/registration-request';
 })
 export class HomeComponent implements OnInit {
 
+  userId!: number;
+  users: User[] = [];
   registrationForm!: FormGroup;
   authRequest: AuthenticationRequest = { email: '', password: '' };
   registerRequest: RegistrationRequest = {
@@ -34,8 +38,9 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthControllerService,
-    private tokenService: TokenService
-  ) {}
+    private tokenService: TokenService,
+    private userService: UsercontrollerService,
+  ) { }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -52,7 +57,29 @@ export class HomeComponent implements OnInit {
 
     // Check if user is already logged in
     this.isLoggedIn = !!this.tokenService.token;
+
+    if (this.isLoggedIn) {
+      this.fetchUserId();
+    }
+
+    this.loadTeachers();
   }
+
+  fetchUserId(): void {
+    this.authService.getCurrentUser().subscribe({
+        next: (user: User) => {
+            if (user.id !== undefined) {  // Type guard to ensure id is not undefined
+                this.userId = user.id;
+                console.log('User ID:', this.userId); // Log the user ID
+            } else {
+                console.error('User ID is undefined'); // Handle the case where ID is undefined
+            }
+        },
+        error: (error) => {
+            console.error('Error fetching user ID:', error); // Log any error
+        }
+    });
+}
 
   onSubmit(): void {
     if (this.registrationForm.valid) {
@@ -69,8 +96,11 @@ export class HomeComponent implements OnInit {
       body: this.authRequest
     }).subscribe({
       next: (res) => {
+        console.log('Login Response:', res); // Log the response to check the token
         this.tokenService.token = res.token as string;
+        console.log('Set Token:', res.token); // Log the token being set
         this.isLoggedIn = true; // Update login state on successful login
+        location.reload(); // Refresh the page to trigger `ngOnInit`
       },
       error: (err) => {
         console.log(err);
@@ -106,5 +136,22 @@ export class HomeComponent implements OnInit {
     this.isLoggedIn = false; // Update login state on logout
   }
 
+  loadTeachers(): void {
+    this.userService.getUsersByRoleTuteur().subscribe({
+      next: (data: User[]) => {
+        console.log('Fetched users:', data); // Log the fetched data
+        this.users = data;
+      },
+      error: (error) => {
+        console.error('Error fetching users:', error); // Log any error
+      }
+    });
+  }
 
+  getPictureUrl(base64String?: string): string {
+    if (base64String) {
+      return `data:image/jpeg;base64,${base64String}`;
+    }
+    return './assets/images/Profile_avatar.png'; // Fallback image
+  }
 }

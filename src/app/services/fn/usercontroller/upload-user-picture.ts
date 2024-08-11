@@ -6,28 +6,29 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface UploadUserPicture$Params {
+  userId: number;
+      body?: {
+'file': Blob;
+}
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+export function uploadUserPicture(http: HttpClient, rootUrl: string, params: UploadUserPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, uploadUserPicture.PATH, 'post');
   if (params) {
+    rb.path('userId', params.userId, {});
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-register.PATH = '/api/auth/register';
+uploadUserPicture.PATH = '/api/user/{userId}/upload-picture';

@@ -6,36 +6,41 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class TokenService {
 
+  private readonly tokenKey = 'token';
+  
+
   constructor() { }
 
   set token(token: string | null) {
     if (token === null) {
-      localStorage.removeItem('token');
+      localStorage.removeItem(this.tokenKey);
     } else {
-      localStorage.setItem('token', token);
+      localStorage.setItem(this.tokenKey, token);
+      console.log('Token set in localStorage:', token); // Log the token being set
     }
   }
 
-  get token() {
-    return localStorage.getItem('token') as string;
+  get token(): string {
+    const token = localStorage.getItem(this.tokenKey) as string;
+    console.log('Retrieved token from localStorage:', token); // Log the token being retrieved
+    return token;
   }
-  isTokenValid() {
+
+  isTokenValid(): boolean {
     const token = this.token;
     if (!token) {
       return false;
     }
-    // decode the token
     const jwtHelper = new JwtHelperService();
-    // check expiry date
     const isTokenExpired = jwtHelper.isTokenExpired(token);
     if (isTokenExpired) {
-      localStorage.clear();
+      localStorage.removeItem(this.tokenKey);
       return false;
     }
     return true;
   }
 
-  isTokenNotValid() {
+  isTokenNotValid(): boolean {
     return !this.isTokenValid();
   }
 
@@ -44,12 +49,9 @@ export class TokenService {
     if (token) {
       const jwtHelper = new JwtHelperService();
       const decodedToken = jwtHelper.decodeToken(token);
-      console.log(decodedToken.authorities);
+      console.log('Decoded token roles:', decodedToken.authorities); // Log the decoded roles
       return decodedToken.authorities;
     }
     return [];
   }
-
-  
- 
 }

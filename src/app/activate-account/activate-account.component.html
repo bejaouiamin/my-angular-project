@@ -9,7 +9,7 @@
       <div class="activation-error">
         <h2>Activation Failed!</h2>
         <p>{{ message }}</p>
-        <button class="btn btn-primary" (click)="submitted = false">Try again</button>
+        <button class="btn btn-lg btn-danger" (click)="submitted = false">Try again</button>
       </div>
     </ng-template>
   </div>
@@ -22,7 +22,7 @@
                     [code]="'number'"
                     (codeCompleted)="onCodeCompleted($event)">
         </code-input>
-        <button class="btn btn-primary mt-3" (click)="redirectToLogin()">Go to Login</button>
+        <button class="btn btn-lg btn-primary" (click)="redirectToLogin()">Go to Login</button>
       </div>
     </div>
   </ng-template>
