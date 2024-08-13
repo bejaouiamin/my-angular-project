@@ -7,6 +7,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { UsercontrollerService } from './services/usercontroller.service';
 import { TuteurcontrollerService } from './services/tuteurcontroller.service';
 import { EtudiantcontrollerService } from './services/etudiantcontroller.service';
+import { SearchControllerService } from './services/search-controller.service';
 import { AuthControllerService } from './services/auth-controller.service';
 
 /**
@@ -20,6 +21,7 @@ import { AuthControllerService } from './services/auth-controller.service';
     UsercontrollerService,
     TuteurcontrollerService,
     EtudiantcontrollerService,
+    SearchControllerService,
     AuthControllerService,
     ApiConfiguration
   ],

@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { GrantedAuthority } from '../models/granted-authority';
+import { Subject } from '../models/subject';
 export interface User {
   accountLocked?: boolean;
   accountNonExpired?: boolean;
@@ -22,5 +23,6 @@ export interface User {
   phone?: string;
   picture?: string;
   role?: 'TUTEUR' | 'ETUDIANT';
+  subjects?: Array<Subject>;
   username?: string;
 }

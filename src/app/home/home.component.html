@@ -60,17 +60,15 @@
                     <!-- Education Form -->
                     <div class="education-form">
                         <!-- Education Form -->
-                        <form>
+                        <form (ngSubmit)="onSubmit1()">
                             <div class="clearfix">
                                 <div class="form-group clearfix">
-                                    <select class="custom-select-box ui-selectmenu-button ui-button">
+                                    <select class="custom-select-box ui-selectmenu-button ui-button" [(ngModel)]="search.subject" name="subject">
                                         <option style="color: black;">Course</option>
-                                        <option style="color: black;">Graphic Designs</option>
-                                        <option style="color: black;">Business</option>
-                                        <option style="color: black;">Digital Marketing</option>
-                                        <option style="color: black;">Fitness</option>
+                                        <option *ngFor="let subject of subjects" [value]="subject.name">{{ subject.name }}</option>
+
                                     </select>
-                                    <input type="text" name="username" placeholder="Search Courses…" required="">
+                                    <input type="text" name="address" [(ngModel)]="search.adress" placeholder="Search by address…" required="">
                                     <button class="submit-btn icofont-search" type="submit" name="submit-form"></button>
                                 </div>
                             </div>
@@ -157,7 +155,7 @@
                                 <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">{{ user.firstName }}
                                     {{ user.lastName }}</a>
                             </h3>
-                            <p class="display-30">Exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                            <p class="display-30">{{ user.adress }}</p>
 
                             <div class="meta meta-style2">
                                 <ul class="list-inline">

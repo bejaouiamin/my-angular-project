@@ -455,6 +455,36 @@
         }
       }
     },
+    "/api/sear/addsubjects": {
+      "post": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "addSubject",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/etudiants": {
       "get": {
         "tags": [
@@ -635,6 +665,70 @@
         }
       }
     },
+    "/api/sear/subjects": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "getAllSubjects",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sear/search": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "searchTutors",
+        "parameters": [
+          {
+            "name": "subject",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/auth/me": {
       "get": {
         "tags": [
@@ -720,6 +814,26 @@
           }
         }
       },
+      "Subject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -777,6 +891,12 @@
             "type": "string",
             "format": "date-time"
           },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Subject"
+            }
+          },
           "name": {
             "type": "string"
           },
@@ -789,13 +909,13 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
           "credentialsNonExpired": {
             "type": "boolean"
           },
           "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
             "type": "boolean"
           }
         }

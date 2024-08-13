@@ -3,6 +3,7 @@ import { UsercontrollerService } from '../services/services/usercontroller.servi
 import { NgForm } from '@angular/forms';
 import * as L from 'leaflet';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private ngZone: NgZone, 
     private userservice: UsercontrollerService,
-    private route: ActivatedRoute  // This is needed to get the route parameters
+    private route: ActivatedRoute,
+    private http: HttpClient  // Inject HttpClient to make HTTP requests
   ) {}
 
   ngOnInit(): void {
@@ -35,8 +37,7 @@ export class ProfileComponent implements OnInit {
 
     if (isNaN(this.userId)) {
       console.error('User ID is not set or invalid');
-      // Optional fallback for testing
-      //this.userId = 352;
+      
     }
   
     this.initMap();
@@ -62,7 +63,24 @@ export class ProfileComponent implements OnInit {
 
       this.marker.setLatLng(e.latlng);
 
-      this.adress = `Lat: ${this.latitude}, Lng: ${this.longitude}`;
+      // Call reverse geocoding API
+      this.reverseGeocode(this.latitude, this.longitude);
+    });
+  }
+
+  reverseGeocode(lat: number, lng: number): void {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+    
+    this.http.get(url).subscribe((response: any) => {
+      console.log('Reverse Geocode response:', response);
+      if (response && response.display_name) {
+        this.adress = response.display_name;
+      } else {
+        this.adress = `Lat: ${lat}, Lng: ${lng}`;
+      }
+    }, error => {
+      console.error('Error fetching location name', error);
+      this.adress = `Lat: ${lat}, Lng: ${lng}`;  // Fallback in case of an error
     });
   }
 

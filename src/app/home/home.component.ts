@@ -6,8 +6,10 @@ import { TokenService } from '../services/token/token.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { dateOfBirthValidator, passwordMatchValidator, passwordValidator } from 'src/validators/custom-validators';
 import { RegistrationRequest } from '../services/models/registration-request';
-import { User } from '../services/models';
-import { UsercontrollerService } from '../services/services';
+import { Subject, Subject as SubjectModel, User } from '../services/models';
+import { SearchControllerService, UsercontrollerService } from '../services/services';
+import { Subject as RxSubject } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,14 @@ export class HomeComponent implements OnInit {
 
   userId!: number;
   users: User[] = [];
+
+  search = {
+    subject: '',
+    adress: ''
+  };
+
+  subjects: SubjectModel[] = [];
+
   registrationForm!: FormGroup;
   authRequest: AuthenticationRequest = { email: '', password: '' };
   registerRequest: RegistrationRequest = {
@@ -40,6 +50,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthControllerService,
     private tokenService: TokenService,
     private userService: UsercontrollerService,
+    private searchService: SearchControllerService
   ) { }
 
   ngOnInit(): void {
@@ -63,23 +74,57 @@ export class HomeComponent implements OnInit {
     }
 
     this.loadTeachers();
+    this.loadSubjects();
   }
+
+  loadSubjects() {
+    this.searchService.getAllSubjects().subscribe({
+      next: (data: Subject[]) => {
+        console.log('subject successfully fetched', data);
+        this.subjects = data;
+      },
+      error: (error) => {
+        console.error('Error fetching subjects:', error);
+      }
+    });
+  }
+
 
   fetchUserId(): void {
     this.authService.getCurrentUser().subscribe({
-        next: (user: User) => {
-            if (user.id !== undefined) {  // Type guard to ensure id is not undefined
-                this.userId = user.id;
-                console.log('User ID:', this.userId); // Log the user ID
-            } else {
-                console.error('User ID is undefined'); // Handle the case where ID is undefined
-            }
-        },
-        error: (error) => {
-            console.error('Error fetching user ID:', error); // Log any error
+      next: (user: User) => {
+        if (user.id !== undefined) {  // Type guard to ensure id is not undefined
+          this.userId = user.id;
+          console.log('User ID:', this.userId); // Log the user ID
+        } else {
+          console.error('User ID is undefined'); // Handle the case where ID is undefined
         }
+      },
+      error: (error) => {
+        console.error('Error fetching user ID:', error); // Log any error
+      }
     });
-}
+  }
+  
+  onSubmit1(): void {
+    const params = {
+      subject: this.search.subject,
+      adress: this.search.adress
+    };
+
+    this.searchService.searchTutors(params).subscribe({
+      next: (data: User[]) => {
+        console.log(data);
+        // handle the search results
+        this.users = data; // assuming you want to store the result in this.users
+      },
+      error: (error) => {
+        console.error('Error searching tutors:', error);
+      }
+    });
+  }
+
+
 
   onSubmit(): void {
     if (this.registrationForm.valid) {
