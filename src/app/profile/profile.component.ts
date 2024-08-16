@@ -14,18 +14,20 @@ import { User } from '../services/models/user';
 })
 export class ProfileComponent implements OnInit {
 
+
   @ViewChild('addressForm', { static: true }) addressForm!: NgForm;
 
   public latitude!: number;
   public longitude!: number;
   public map!: L.Map;
   public marker!: L.Marker;
-  
+
   users: User[] = [];
   userPictureUrl: string | null = null;
   adress!: string;
   userId!: number;
   selectedFile: File | null = null;
+  user: User = {};  // Initialize user object
 
   constructor(
     private ngZone: NgZone,
@@ -44,11 +46,61 @@ export class ProfileComponent implements OnInit {
       console.error('User ID is not set or invalid');
 
     }
+    // Load user details by ID
+    this.userservice.getUserById({ id: this.userId }).subscribe(
+      (userData: User) => {
+        this.user = userData;
+        console.log('User details loaded:', this.user);
+        console.log('User ID:', this.user.id);
+      },
+      error => {
+        console.error('Error loading user details', error);
+      }
+    );
 
     this.initMap();
     this.loadUserPicture();
+
   }
 
+  onSubmit() {
+    console.log('User object before submission:', this.user);
+  
+    if (this.user && this.user.id !== undefined) {
+      // Handle user update
+      const updateParams = { id: this.user.id, body: this.user };
+      this.userservice.updateUtilisateur(updateParams).subscribe(
+        response => {
+          console.log('User details updated successfully', response);
+          Swal.fire({
+            title: "Success!",
+            text: "Profile updated successfully!",
+            icon: "success"
+          }).then(() => {
+            // This will be executed after the alert is closed
+            location.reload();
+          });
+        },
+        error => {
+          console.error('Error updating user', error);
+          Swal.fire({
+            title: "Error!",
+            text: "There was an error updating your profile.",
+            icon: "error"
+          });
+        }
+      );
+    } else {
+      console.error('User ID is missing, cannot update');
+      Swal.fire({
+        title: "Error!",
+        text: "User ID is missing, cannot update.",
+        icon: "error"
+      });
+    }
+  }
+  
+  
   initMap(): void {
     this.map = L.map('map').setView([51.505, -0.09], 13);
 
@@ -136,10 +188,10 @@ export class ProfileComponent implements OnInit {
       console.error('No file selected');
       return;
     }
-  
+
     // Create a Blob object from the selected file
     const blob = new Blob([this.selectedFile], { type: this.selectedFile.type });
-  
+
     // Call the service method with the correct parameters
     this.userservice.uploadUserPicture({
       userId: this.userId,
@@ -148,7 +200,7 @@ export class ProfileComponent implements OnInit {
       response => {
         console.log('Picture uploaded successfully', response);
         this.loadUserPicture();  // Refresh the picture
-  
+
         // Display success alert
         Swal.fire({
           title: "Good job!",
@@ -161,7 +213,7 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-  
+
 
   // Load the user's picture
   loadUserPicture(): void {
@@ -169,7 +221,7 @@ export class ProfileComponent implements OnInit {
       if (user && user.picture) {
         // Assuming the picture is returned as a base64 encoded string
         this.userPictureUrl = 'data:image/jpeg;base64,' + user.picture;
-        
+
       } else {
         this.userPictureUrl = 'https://bootdey.com/img/Content/avatar/avatar1.png'; // Default avatar
       }

@@ -57,7 +57,7 @@
                                 <h5 class="card-title mb-0">Public info</h5>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form (ngSubmit)="onSubmit()">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
@@ -66,9 +66,11 @@
                                                     placeholder="Username">
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputUsername">Biography</label>
-                                                <textarea rows="2" class="form-control" id="inputBio"
-                                                    placeholder="Tell something about yourself"></textarea>
+                                                <label for="bio">Biography</label>
+                                                <textarea rows="2" class="form-control" id="bio" [(ngModel)]="user.bio" name="bio" placeholder="Tell something about yourself" maxlength="255"></textarea>
+                                                <small *ngIf="user.bio?.length === 255" class="error-message">
+                                                    You have reached the maximum of 255 characters.
+                                                  </small>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
