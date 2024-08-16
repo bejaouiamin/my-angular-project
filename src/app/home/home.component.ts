@@ -105,24 +105,36 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  
+
   onSubmit1(): void {
-    const params = {
+    if (!this.search.subject || !this.search.adress) {
+      alert('Please fill in both the subject and address before searching.');
+      return;
+    }
+
+    this.searchService.searchTutors({
       subject: this.search.subject,
       adress: this.search.adress
-    };
-
-    this.searchService.searchTutors(params).subscribe({
+    }).subscribe({
       next: (data: User[]) => {
-        console.log(data);
-        // handle the search results
-        this.users = data; // assuming you want to store the result in this.users
+        if (data.length === 0) {
+          alert("No tutors found for the specified criteria.");
+        } else {
+          console.log(data);
+          this.users = data;
+        }
       },
       error: (error) => {
-        console.error('Error searching tutors:', error);
+        if (error.status === 404) {
+          alert("No tutors found with the specified criteria.");
+        } else {
+          console.error('Error fetching tutors:', error);
+        }
       }
     });
   }
+
+
 
 
 

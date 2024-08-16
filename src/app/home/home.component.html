@@ -64,8 +64,8 @@
                             <div class="clearfix">
                                 <div class="form-group clearfix">
                                     <select class="custom-select-box ui-selectmenu-button ui-button" [(ngModel)]="search.subject" name="subject">
-                                        <option style="color: black;">Course</option>
-                                        <option *ngFor="let subject of subjects" [value]="subject.name">{{ subject.name }}</option>
+                                        <option value="">Course</option>
+                                        <option *ngFor="let subject of subjects" [value]="subject.name" style="color: black;">{{ subject.name }}</option>
 
                                     </select>
                                     <input type="text" name="address" [(ngModel)]="search.adress" placeholder="Search by address…" required="">

@@ -73,16 +73,28 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                <img alt="Andrew Jones"
-                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    class="rounded-circle img-responsive mt-2" width="128" height="128">
+                                                <!-- Display the user's picture; click to trigger file input -->
+                                                <img [src]="userPictureUrl || 'https://bootdey.com/img/Content/avatar/avatar1.png'"
+                                                    class="rounded-circle img-responsive mt-2" width="128" height="128"
+                                                    (click)="fileInput.click()" style="cursor: pointer;">
+
+                                                <!-- Hidden file input -->
+                                                <input type="file" #fileInput (change)="onFileChange($event)"
+                                                    accept="image/*" style="display: none;" />
+
+                                                <!-- Upload button -->
                                                 <div class="mt-2">
-                                                    <span class="btn btn-primary"><i class="fa fa-upload"></i></span>
+                                                    <button (click)="uploadPicture()" class="btn btn-primary"
+                                                        style="border-radius: 4px;padding: 6px 12px;">
+                                                        <i class="fa fa-upload"></i> Upload
+                                                    </button>
                                                 </div>
+
                                                 <small>For best results, use an image at least 128px by 128px in .jpg
                                                     format</small>
                                             </div>
                                         </div>
+
                                     </div>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                 </form>
@@ -444,8 +456,9 @@
                                         <input type="text" class="form-control" id="adress" name="adress"
                                             [(ngModel)]="adress">
                                     </div>
-                                    <div id="map" ></div> <!-- Leaflet map container -->
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Enregistrer</button>
+                                    <div id="map"></div> <!-- Leaflet map container -->
+                                    <button type="submit" class="btn btn-primary"
+                                        style="margin-top: 3%;">Enregistrer</button>
                                 </form>
                             </div>
                         </div>

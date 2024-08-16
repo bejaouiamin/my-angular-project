@@ -18,17 +18,25 @@ export function uploadUserPicture(http: HttpClient, rootUrl: string, params: Upl
   const rb = new RequestBuilder(rootUrl, uploadUserPicture.PATH, 'post');
   if (params) {
     rb.path('userId', params.userId, {});
-    rb.body(params.body, 'application/json');
+
+    const formData: FormData = new FormData();
+    if (params.body) {
+      formData.append('file', params.body.file);
+    }
+
+    rb.body(formData);
   }
 
   return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })  // Change responseType to 'text'
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
+    map((r: HttpResponse<string>) => {
       return r as StrictHttpResponse<string>;
     })
   );
+  
 }
+
 
 uploadUserPicture.PATH = '/api/user/{userId}/upload-picture';
