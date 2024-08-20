@@ -6,6 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { User } from '../services/models/user';
+import { AuthControllerService, SearchControllerService } from '../services/services';
+import { Subject } from '../services/models';
+import { AddSubject$Params } from '../services/fn/search-controller/add-subject';
 
 @Component({
   selector: 'app-profile',
@@ -28,10 +31,14 @@ export class ProfileComponent implements OnInit {
   userId!: number;
   selectedFile: File | null = null;
   user: User = {};  // Initialize user object
+  subjects: Subject[] = [];
+  newSubjectName: string = '';  // This will hold the value of the input field
 
   constructor(
     private ngZone: NgZone,
     private userservice: UsercontrollerService,
+    private searchService: SearchControllerService,
+    private authService: AuthControllerService,
     private route: ActivatedRoute,
     private http: HttpClient  // Inject HttpClient to make HTTP requests
   ) { }
@@ -65,7 +72,7 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     console.log('User object before submission:', this.user);
-  
+
     if (this.user && this.user.id !== undefined) {
       // Handle user update
       const updateParams = { id: this.user.id, body: this.user };
@@ -99,8 +106,8 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-  
-  
+
+
   initMap(): void {
     this.map = L.map('map').setView([51.505, -0.09], 13);
 
@@ -229,6 +236,56 @@ export class ProfileComponent implements OnInit {
       console.error('Error loading picture', error);
     });
   }
+
+  newSubject(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (!user.id) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'User ID is not available.',
+          icon: 'error'
+        });
+        return;
+      }
+
+      const newSubject: Subject = {
+        name: this.newSubjectName,
+        createdDate: new Date().toISOString(),
+      };
+
+      const params: AddSubject$Params = {
+        body: newSubject,
+        userId: user.id,
+      };
+
+      this.searchService.addSubject(params).subscribe({
+        next: (response) => {
+          console.log('Subject added successfully', response);
+          Swal.fire({
+            title: 'Success!',
+            text: 'New subject added successfully!',
+            icon: 'success'
+          });
+        },
+        error: (err) => {
+          if (err.message === 'Subject already added.') {
+            Swal.fire({
+              title: 'Error!',
+              text: 'This subject has already been added.',
+              icon: 'error'
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: err.message || 'There was an error adding the new subject.',
+              icon: 'error'
+            });
+          }
+        }
+      });
+    });
+  }
+
 
 
 }

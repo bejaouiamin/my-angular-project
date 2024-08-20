@@ -135,9 +135,6 @@ export class HomeComponent implements OnInit {
   }
 
 
-
-
-
   onSubmit(): void {
     if (this.registrationForm.valid) {
       this.registerRequest = this.registrationForm.value;
