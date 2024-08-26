@@ -6,14 +6,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { User } from '../../models/user';
 
-export interface GetUsersByRoleTuteur$Params {
+export interface DeleteSubject$Params {
+  subjectId: number;
+  userId: number;
 }
 
-export function getUsersByRoleTuteur(http: HttpClient, rootUrl: string, params?: GetUsersByRoleTuteur$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<User>>> {
-  const rb = new RequestBuilder(rootUrl, getUsersByRoleTuteur.PATH, 'get');
+export function deleteSubject(http: HttpClient, rootUrl: string, params: DeleteSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, deleteSubject.PATH, 'delete');
   if (params) {
+    rb.query('subjectId', params.subjectId, {});
+    rb.query('userId', params.userId, {});
   }
 
   return http.request(
@@ -21,9 +24,9 @@ export function getUsersByRoleTuteur(http: HttpClient, rootUrl: string, params?:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<User>>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-getUsersByRoleTuteur.PATH = '/api/user/role/tuteur';
+deleteSubject.PATH = '/api/sear/deletesubject';

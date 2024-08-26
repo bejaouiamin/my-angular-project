@@ -461,6 +461,17 @@
           "search-controller"
         ],
         "operationId": "addSubject",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -477,7 +488,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Subject"
+                  "type": "string"
                 }
               }
             }
@@ -589,6 +600,26 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/loginSuccess": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "getLoginInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
@@ -802,18 +833,50 @@
           }
         }
       }
+    },
+    "/api/sear/deletesubject": {
+      "delete": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "deleteSubject",
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "GrantedAuthority": {
-        "type": "object",
-        "properties": {
-          "authority": {
-            "type": "string"
-          }
-        }
-      },
       "Subject": {
         "type": "object",
         "properties": {
@@ -902,12 +965,6 @@
           },
           "username": {
             "type": "string"
-          },
-          "authorities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GrantedAuthority"
-            }
           },
           "credentialsNonExpired": {
             "type": "boolean"

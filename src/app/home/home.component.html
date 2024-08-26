@@ -63,12 +63,15 @@
                         <form (ngSubmit)="onSubmit1()">
                             <div class="clearfix">
                                 <div class="form-group clearfix">
-                                    <select class="custom-select-box ui-selectmenu-button ui-button" [(ngModel)]="search.subject" name="subject">
+                                    <select class="custom-select-box ui-selectmenu-button ui-button"
+                                        [(ngModel)]="search.subject" name="subject">
                                         <option value="">Course</option>
-                                        <option *ngFor="let subject of subjects" [value]="subject.name" style="color: black;">{{ subject.name }}</option>
+                                        <option *ngFor="let subject of subjects" [value]="subject.name"
+                                            style="color: black;">{{ subject.name }}</option>
 
                                     </select>
-                                    <input type="text" name="address" [(ngModel)]="search.adress" placeholder="Search by address…" required="">
+                                    <input type="text" name="address" [(ngModel)]="search.adress"
+                                        placeholder="Search by address…" required="">
                                     <button class="submit-btn icofont-search" type="submit" name="submit-form"></button>
                                 </div>
                             </div>
@@ -143,7 +146,7 @@
                     style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                     <div class="blog-grid">
                         <div class="blog-grid-img position-relative">
-                            <img alt="img" [src]="getPictureUrl(user.picture)" >
+                            <img alt="img" [src]="getPictureUrl(user.picture)">
 
                         </div>
                         <div class="blog-grid-text p-4">
@@ -189,7 +192,7 @@
         <div class="lower-box text-center" style="margin-top: 1%;">
             <a href="courses.html" class="courses">View all Teachers</a>
         </div>
-    </section> 
+    </section>
     <!-- End Courses Section -->
 
     <!-- Benefits Section -->
@@ -459,7 +462,7 @@
                             <form class="form-signin">
                                 <h1 class="h3 mb-3 text-center">Sign in</h1>
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-danger btn-block" type="button"><i class="fa fa-google"></i>
+                                    <button (click)="signInWithGoogle()" class="btn btn-danger btn-block" ><i class="fa fa-google"></i>
                                         Sign in with Google</button>
                                 </div>
                                 <p class="text-center my-3">OR</p>
@@ -484,13 +487,6 @@
                             aria-labelledby="register-tab">
                             <form class="form-signup" [formGroup]="registrationForm">
                                 <h1 class="h3 mb-3 text-center">Sign Up</h1>
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-danger btn-block" type="button">
-                                        <i class="fa fa-google"></i> Sign up with Google
-                                    </button>
-                                </div>
-                                <p class="text-center my-3">OR</p>
-
                                 <div class="mb-3">
                                     <label for="firstName">First Name:</label>
                                     <input [(ngModel)]="registerRequest.firstName" type="text" id="firstName"

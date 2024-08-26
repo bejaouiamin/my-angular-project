@@ -11,6 +11,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { addSubject } from '../fn/search-controller/add-subject';
 import { AddSubject$Params } from '../fn/search-controller/add-subject';
+import { deleteSubject } from '../fn/search-controller/delete-subject';
+import { DeleteSubject$Params } from '../fn/search-controller/delete-subject';
 import { getAllSubjects } from '../fn/search-controller/get-all-subjects';
 import { GetAllSubjects$Params } from '../fn/search-controller/get-all-subjects';
 import { searchTutors } from '../fn/search-controller/search-tutors';
@@ -96,6 +98,31 @@ export class SearchControllerService extends BaseService {
   searchTutors(params: SearchTutors$Params, context?: HttpContext): Observable<Array<User>> {
     return this.searchTutors$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<User>>): Array<User> => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteSubject()` */
+  static readonly DeleteSubjectPath = '/api/sear/deletesubject';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSubject()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSubject$Response(params: DeleteSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return deleteSubject(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteSubject$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSubject(params: DeleteSubject$Params, context?: HttpContext): Observable<string> {
+    return this.deleteSubject$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

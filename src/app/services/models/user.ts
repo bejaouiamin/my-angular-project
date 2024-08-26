@@ -1,13 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
-import { GrantedAuthority } from '../models/granted-authority';
 import { Subject } from '../models/subject';
 export interface User {
   accountLocked?: boolean;
   accountNonExpired?: boolean;
   accountNonLocked?: boolean;
   adress?: string;
-  authorities?: Array<GrantedAuthority>;
   bio?: string;
   createdDate?: string;
   credentialsNonExpired?: boolean;

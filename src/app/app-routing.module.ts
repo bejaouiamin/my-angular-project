@@ -14,8 +14,6 @@ const routes: Routes = [
   { path: 'teachers', component: TeachersComponent },
   { path: 'profile/:id', component: ProfileComponent }
   
-
-
 ];
 
 @NgModule({

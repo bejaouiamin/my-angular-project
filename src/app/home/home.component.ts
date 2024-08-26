@@ -9,6 +9,8 @@ import { RegistrationRequest } from '../services/models/registration-request';
 import { Subject, Subject as SubjectModel, User } from '../services/models';
 import { SearchControllerService, UsercontrollerService } from '../services/services';
 import { Subject as RxSubject } from 'rxjs';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+
 
 
 @Component({
@@ -21,14 +23,11 @@ export class HomeComponent implements OnInit {
 
   userId!: number;
   users: User[] = [];
-
   search = {
     subject: '',
     adress: ''
   };
-
   subjects: SubjectModel[] = [];
-
   registrationForm!: FormGroup;
   authRequest: AuthenticationRequest = { email: '', password: '' };
   registerRequest: RegistrationRequest = {
@@ -43,6 +42,7 @@ export class HomeComponent implements OnInit {
   };
   errorMsg: Array<string> = [];
   isLoggedIn = false; // Add this property to track the login state
+  
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +50,8 @@ export class HomeComponent implements OnInit {
     private authService: AuthControllerService,
     private tokenService: TokenService,
     private userService: UsercontrollerService,
-    private searchService: SearchControllerService
+    private searchService: SearchControllerService,
+    private oauthService: SocialAuthService
   ) { }
 
   ngOnInit(): void {
@@ -72,10 +73,19 @@ export class HomeComponent implements OnInit {
     if (this.isLoggedIn) {
       this.fetchUserId();
     }
-
     this.loadTeachers();
     this.loadSubjects();
+   
   }
+
+  signInWithGoogle(): void {
+    this.oauthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
+      localStorage.setItem('google_auth', JSON.stringify(data));
+      this.router.navigateByUrl('/home').then();
+    });
+  }
+  
+  
 
   loadSubjects() {
     this.searchService.getAllSubjects().subscribe({

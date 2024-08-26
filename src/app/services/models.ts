@@ -3,7 +3,6 @@
 export { AuthenticationRequest } from './models/authentication-request';
 export { AuthenticationResponse } from './models/authentication-response';
 export { Etudiant } from './models/etudiant';
-export { GrantedAuthority } from './models/granted-authority';
 export { RegistrationRequest } from './models/registration-request';
 export { Subject } from './models/subject';
 export { Tuteur } from './models/tuteur';
