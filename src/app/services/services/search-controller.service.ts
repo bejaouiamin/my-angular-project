@@ -35,7 +35,7 @@ export class SearchControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addSubject$Response(params: AddSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<Subject>> {
+  addSubject$Response(params: AddSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> { // Changed to string
     return addSubject(this.http, this.rootUrl, params, context);
   }
 
@@ -45,9 +45,9 @@ export class SearchControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addSubject(params: AddSubject$Params, context?: HttpContext): Observable<Subject> {
+  addSubject(params: AddSubject$Params, context?: HttpContext): Observable<string> { // Changed to string
     return this.addSubject$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Subject>): Subject => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body) // Changed to string
     );
   }
 

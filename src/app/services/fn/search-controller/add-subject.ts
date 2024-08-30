@@ -10,7 +10,7 @@ export interface AddSubject$Params {
   userId: number;
 }
 
-export function addSubject(http: HttpClient, rootUrl: string, params: AddSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<Subject>> {
+export function addSubject(http: HttpClient, rootUrl: string, params: AddSubject$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
   const rb = new RequestBuilder(rootUrl, addSubject.PATH, 'post');
   if (params) {
     rb.query('userId', params.userId);
@@ -18,15 +18,17 @@ export function addSubject(http: HttpClient, rootUrl: string, params: AddSubject
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'text', accept: 'text/plain', context })
   ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
-    map((r: HttpResponse<any>) => {
+    filter((r: any): r is HttpResponse<string> => r instanceof HttpResponse),
+    map((r: HttpResponse<string>) => {
       if (r.status === 409) {
-        // Handle conflict response
         throw new Error('Subject already added.');
+      } else if (r.ok) {
+        return r as StrictHttpResponse<string>;
+      } else {
+        throw new Error(`Unexpected error: ${r.statusText}`);
       }
-      return r as StrictHttpResponse<Subject>;
     })
   );
 }

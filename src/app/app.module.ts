@@ -15,6 +15,7 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -23,7 +24,8 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
     HomeComponent,
     ActivateAccountComponent,
     TeachersComponent,
-    ProfileComponent
+    ProfileComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

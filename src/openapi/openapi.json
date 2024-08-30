@@ -547,6 +547,67 @@
         }
       }
     },
+    "/api/auth/reset-password": {
+      "get": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "validateResetToken",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "resetPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/auth/register": {
       "post": {
         "tags": [
@@ -607,12 +668,25 @@
         }
       }
     },
-    "/api/auth/loginSuccess": {
+    "/api/auth/forgot-password": {
       "post": {
         "tags": [
           "auth-controller"
         ],
-        "operationId": "getLoginInfo",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -773,6 +847,26 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login/oauth2/code/google": {
+      "get": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "getLoginInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
                 }
               }
             }
@@ -944,6 +1038,9 @@
             "type": "string"
           },
           "phone": {
+            "type": "string"
+          },
+          "resetToken": {
             "type": "string"
           },
           "createdDate": {

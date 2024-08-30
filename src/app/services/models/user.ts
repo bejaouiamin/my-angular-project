@@ -20,6 +20,7 @@ export interface User {
   password?: string;
   phone?: string;
   picture?: string;
+  resetToken?: string;
   role?: 'TUTEUR' | 'ETUDIANT';
   subjects?: Array<Subject>;
   username?: string;

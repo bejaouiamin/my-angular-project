@@ -247,20 +247,20 @@ export class ProfileComponent implements OnInit {
         });
         return;
       }
-
+  
       const newSubject: Subject = {
         name: this.newSubjectName,
         createdDate: new Date().toISOString(),
       };
-
+  
       const params: AddSubject$Params = {
         body: newSubject,
         userId: user.id,
       };
-
+  
       this.searchService.addSubject(params).subscribe({
         next: (response) => {
-          console.log('Subject added successfully', response);
+          console.log('Received response:', response);
           Swal.fire({
             title: 'Success!',
             text: 'New subject added successfully!',
@@ -268,6 +268,7 @@ export class ProfileComponent implements OnInit {
           });
         },
         error: (err) => {
+          console.error('Error occurred:', err);
           if (err.message === 'Subject already added.') {
             Swal.fire({
               title: 'Error!',
@@ -277,15 +278,13 @@ export class ProfileComponent implements OnInit {
           } else {
             Swal.fire({
               title: 'Error!',
-              text: err.message || 'There was an error adding the new subject.',
+              text: 'There was an error adding the new subject.',
               icon: 'error'
             });
           }
         }
-      });
+      });      
     });
   }
-
-
-
+  
 }

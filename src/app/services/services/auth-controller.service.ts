@@ -12,6 +12,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { AuthenticationResponse } from '../models/authentication-response';
 import { confirm } from '../fn/auth-controller/confirm';
 import { Confirm$Params } from '../fn/auth-controller/confirm';
+import { forgotPassword } from '../fn/auth-controller/forgot-password';
+import { ForgotPassword$Params } from '../fn/auth-controller/forgot-password';
 import { getCurrentUser } from '../fn/auth-controller/get-current-user';
 import { GetCurrentUser$Params } from '../fn/auth-controller/get-current-user';
 import { getLoginInfo } from '../fn/auth-controller/get-login-info';
@@ -20,12 +22,74 @@ import { login } from '../fn/auth-controller/login';
 import { Login$Params } from '../fn/auth-controller/login';
 import { register } from '../fn/auth-controller/register';
 import { Register$Params } from '../fn/auth-controller/register';
+import { resetPassword } from '../fn/auth-controller/reset-password';
+import { ResetPassword$Params } from '../fn/auth-controller/reset-password';
 import { User } from '../models/user';
+import { validateResetToken } from '../fn/auth-controller/validate-reset-token';
+import { ValidateResetToken$Params } from '../fn/auth-controller/validate-reset-token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `validateResetToken()` */
+  static readonly ValidateResetTokenPath = '/api/auth/reset-password';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `validateResetToken()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  validateResetToken$Response(params: ValidateResetToken$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+  }>> {
+    return validateResetToken(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `validateResetToken$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  validateResetToken(params: ValidateResetToken$Params, context?: HttpContext): Observable<{
+  }> {
+    return this.validateResetToken$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+      }>): {
+        } => r.body)
+    );
+  }
+
+  /** Path part for operation `resetPassword()` */
+  static readonly ResetPasswordPath = '/api/auth/reset-password';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resetPassword()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  resetPassword$Response(params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+  }>> {
+    return resetPassword(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resetPassword$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  resetPassword(params: ResetPassword$Params, context?: HttpContext): Observable<{
+  }> {
+    return this.resetPassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+      }>): {
+        } => r.body)
+    );
   }
 
   /** Path part for operation `register()` */
@@ -82,31 +146,35 @@ export class AuthControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getLoginInfo()` */
-  static readonly GetLoginInfoPath = '/api/auth/login/oauth2/code/google';
+  /** Path part for operation `forgotPassword()` */
+  static readonly ForgotPasswordPath = '/api/auth/forgot-password';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getLoginInfo()` instead.
+   * To access only the response body, use `forgotPassword()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getLoginInfo$Response(params?: GetLoginInfo$Params, context?: HttpContext): Observable<StrictHttpResponse<AuthenticationResponse>> {
-    return getLoginInfo(this.http, this.rootUrl, params, context);
+  forgotPassword$Response(params: ForgotPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+  }>> {
+    return forgotPassword(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getLoginInfo$Response()` instead.
+   * To access the full response (for headers, for example), `forgotPassword$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getLoginInfo(params?: GetLoginInfo$Params, context?: HttpContext): Observable<AuthenticationResponse> {
-    return this.getLoginInfo$Response(params, context).pipe(
-      map((r: StrictHttpResponse<AuthenticationResponse>) => r.body)
+  forgotPassword(params: ForgotPassword$Params, context?: HttpContext): Observable<{
+  }> {
+    return this.forgotPassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+      }>): {
+        } => r.body)
     );
   }
-  
+
   /** Path part for operation `getCurrentUser()` */
   static readonly GetCurrentUserPath = '/api/auth/me';
 
@@ -129,6 +197,31 @@ export class AuthControllerService extends BaseService {
   getCurrentUser(params?: GetCurrentUser$Params, context?: HttpContext): Observable<User> {
     return this.getCurrentUser$Response(params, context).pipe(
       map((r: StrictHttpResponse<User>): User => r.body)
+    );
+  }
+
+  /** Path part for operation `getLoginInfo()` */
+  static readonly GetLoginInfoPath = '/api/auth/login/oauth2/code/google';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getLoginInfo()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getLoginInfo$Response(params?: GetLoginInfo$Params, context?: HttpContext): Observable<StrictHttpResponse<AuthenticationResponse>> {
+    return getLoginInfo(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getLoginInfo$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getLoginInfo(params?: GetLoginInfo$Params, context?: HttpContext): Observable<AuthenticationResponse> {
+    return this.getLoginInfo$Response(params, context).pipe(
+      map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
     );
   }
 

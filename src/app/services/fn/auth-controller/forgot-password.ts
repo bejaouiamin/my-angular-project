@@ -6,26 +6,29 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { User } from '../../models/user';
 
-export interface CreateUtilisateur$Params {
-      body: User
+export interface ForgotPassword$Params {
+      body: {
+[key: string]: string;
+}
 }
 
-export function createUtilisateur(http: HttpClient, rootUrl: string, params: CreateUtilisateur$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
-  const rb = new RequestBuilder(rootUrl, createUtilisateur.PATH, 'post');
+export function forgotPassword(http: HttpClient, rootUrl: string, params: ForgotPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+  const rb = new RequestBuilder(rootUrl, forgotPassword.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<User>;
+      return r as StrictHttpResponse<{
+      }>;
     })
   );
 }
 
-createUtilisateur.PATH = '/api/user/adduser';
+forgotPassword.PATH = '/api/auth/forgot-password';

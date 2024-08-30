@@ -9,7 +9,8 @@ import { RegistrationRequest } from '../services/models/registration-request';
 import { Subject, Subject as SubjectModel, User } from '../services/models';
 import { SearchControllerService, UsercontrollerService } from '../services/services';
 import { Subject as RxSubject } from 'rxjs';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { ForgotPassword$Params } from '../services/fn/auth-controller/forgot-password';
+import Swal from 'sweetalert2';
 
 
 
@@ -21,6 +22,7 @@ import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/an
 })
 export class HomeComponent implements OnInit {
 
+  forgotPasswordEmail: string = '';
   userId!: number;
   users: User[] = [];
   search = {
@@ -36,8 +38,6 @@ export class HomeComponent implements OnInit {
     email: '',
     password: '',
     dateOfBirth: '',
-    adress: '',
-    phone: '',
     role: undefined // initialize as undefined or one of the valid values
   };
   errorMsg: Array<string> = [];
@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
     private tokenService: TokenService,
     private userService: UsercontrollerService,
     private searchService: SearchControllerService,
-    private oauthService: SocialAuthService
   ) { }
 
   ngOnInit(): void {
@@ -62,8 +61,6 @@ export class HomeComponent implements OnInit {
       password: ['', [Validators.required, passwordValidator()]],
       repeatPassword: ['', Validators.required],
       dateOfBirth: ['', [Validators.required, dateOfBirthValidator()]],
-      adress: ['', Validators.required],
-      phone: ['', Validators.required],
       role: ['', Validators.required]
     }, { validators: passwordMatchValidator });
 
@@ -78,14 +75,6 @@ export class HomeComponent implements OnInit {
    
   }
 
-  signInWithGoogle(): void {
-    this.oauthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
-      localStorage.setItem('google_auth', JSON.stringify(data));
-      this.router.navigateByUrl('/home').then();
-    });
-  }
-  
-  
 
   loadSubjects() {
     this.searchService.getAllSubjects().subscribe({
@@ -218,4 +207,52 @@ export class HomeComponent implements OnInit {
     }
     return './assets/images/Profile_avatar.png'; // Fallback image
   }
+
+  forgotPassword(): void {
+    if (this.forgotPasswordEmail.trim() === '') {
+      alert('Please enter your email address.');
+      return;
+    }
+
+    const params: ForgotPassword$Params = {
+      body: {
+        email: this.forgotPasswordEmail
+      }
+    };
+
+    this.authService.forgotPassword(params).subscribe({
+      next: () => {
+        
+        Swal.fire({
+          title: "Good job!",
+          text: "Password reset link has been sent to your email.",
+          icon: "success"
+        });
+        this.hideForgotPassword(); // Hide the forgot password form and show login
+      },
+      error: (err) => {
+        console.error('Error sending password reset link:', err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "An error occurred while sending the reset link. Please try again.",
+        });
+      }
+    });
+  }
+
+  showForgotPassword() {
+    // Hide the login/register form and show the forgot password form
+    document.getElementById('authTabContent')!.style.display = 'none';
+    document.getElementById('forgotPasswordForm')!.style.display = 'block';
+  }
+  
+  hideForgotPassword() {
+    // Hide the forgot password form and show the login/register form
+    document.getElementById('forgotPasswordForm')!.style.display = 'none';
+    document.getElementById('authTabContent')!.style.display = 'block';
+  }
+  
+  
+  
 }
