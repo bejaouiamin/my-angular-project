@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HomeComponent } from './home/home.component';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UserAboutMeComponent } from './user-about-me/user-about-me.component';
+
 
 const routes: Routes = [
 
@@ -14,7 +15,9 @@ const routes: Routes = [
   { path: 'activate-account', component: ActivateAccountComponent },
   { path: 'teachers', component: TeachersComponent },
   { path: 'profile/:id', component: ProfileComponent },
-  { path: 'reset-password', component: ResetPasswordComponent }
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'user-about-me' , component: UserAboutMeComponent }
+
   
 ];
 
