@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'teachers', component: TeachersComponent },
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'user-about-me' , component: UserAboutMeComponent }
+  { path: 'user-about-me/:id' , component: UserAboutMeComponent }
 
   
 ];

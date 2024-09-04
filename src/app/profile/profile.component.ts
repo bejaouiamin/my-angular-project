@@ -6,9 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { User } from '../services/models/user';
-import { AuthControllerService, SearchControllerService } from '../services/services';
-import { Subject } from '../services/models';
+import { AuthControllerService, SearchControllerService, TuteurcontrollerService } from '../services/services';
+import { Subject, Tuteur } from '../services/models';
 import { AddSubject$Params } from '../services/fn/search-controller/add-subject';
+import { StrictHttpResponse } from '../services/strict-http-response';
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +34,8 @@ export class ProfileComponent implements OnInit {
   user: User = {};  // Initialize user object
   subjects: Subject[] = [];
   newSubjectName: string = '';  // This will hold the value of the input field
+  tuteur: Tuteur = {};
+  tuteurId!:number;
 
   constructor(
     private ngZone: NgZone,
@@ -40,35 +43,59 @@ export class ProfileComponent implements OnInit {
     private searchService: SearchControllerService,
     private authService: AuthControllerService,
     private route: ActivatedRoute,
-    private http: HttpClient  // Inject HttpClient to make HTTP requests
+    private http: HttpClient,  // Inject HttpClient to make HTTP requests
+    private tuteurservice: TuteurcontrollerService
   ) { }
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     console.log('ID from route:', idParam);
-
+  
     this.userId = Number(idParam);
-
+  
     if (isNaN(this.userId)) {
       console.error('User ID is not set or invalid');
-
+      return;
     }
+  
     // Load user details by ID
     this.userservice.getUserById({ id: this.userId }).subscribe(
       (userData: User) => {
         this.user = userData;
         console.log('User details loaded:', this.user);
         console.log('User ID:', this.user.id);
+  
+        // Load tuteur details if tuteur is present
+        if (this.user.tuteur) {
+          // Assuming `this.user.tuteur` contains the necessary information
+          this.tuteur = this.user.tuteur;
+        } else {
+          console.error("Tuteur information is missing from the user object.");
+        }
       },
       error => {
         console.error('Error loading user details', error);
       }
     );
-
+  
     this.initMap();
     this.loadUserPicture();
-
   }
+  
+  loadTuteur(tuteurId: number): void {
+    this.tuteurservice.getTuteurById({ id: tuteurId }).subscribe({
+      next: (tuteur: Tuteur) => {
+        this.tuteur = tuteur;
+        if (!this.tuteur.id) {
+          console.error("Tuteur ID is not set. Cannot update without an ID.");
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching Tuteur:', error);
+      }
+    });
+  }
+  
 
   onSubmit() {
     console.log('User object before submission:', this.user);
@@ -286,5 +313,75 @@ export class ProfileComponent implements OnInit {
       });      
     });
   }
+
+  saveEducation(): void  {
+    // Ensure that the user object is properly set before saving
+    this.tuteur.user = this.user;  // Assuming `this.user` is the currently logged-in user with a valid ID
+
+    this.tuteurservice.createTuteur({ body: this.tuteur }).subscribe({
+      next: (response) => {
+        console.log('Tuteur created with education details:', response);
+        Swal.fire({
+          title: 'Success!',
+          text: 'The information was saved successfully!',
+          icon: 'success'
+        });
+      },
+      error: (error) => {
+        console.error('Error creating Tuteur:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'There was an error saving the information.',
+          icon: 'error'
+        });
+      }
+    });
+  }
+
+  saveExperience(): void {
+    if (typeof this.tuteur.period === 'string' || typeof this.tuteur.period === 'number') {
+        const periodStr = this.tuteur.period.toString(); // Convert period to string if it's a number
+        const matches = periodStr.match(/\d+/); // Extract digits from the string
+        if (matches) {
+            this.tuteur.period = parseInt(matches[0], 10); // Convert back to an integer
+        } else {
+            this.tuteur.period = undefined; // Handle invalid input by setting it to undefined
+        }
+    }
+
+    this.tuteur.user = this.user;
+
+    // Ensure the ID is set
+    if (!this.tuteur.id) {
+        console.error("Tuteur ID is not set. Cannot update without an ID.");
+        Swal.fire({
+            title: 'Error!',
+            text: 'Tuteur ID is missing. Cannot update without an ID.',
+            icon: 'error'
+        });
+        return;
+    }
+
+    this.tuteurservice.updateTuteur({ id: this.tuteur.id, body: this.tuteur }).subscribe({
+        next: (response) => {
+            console.log('Tuteur updated with experience details:', response);
+            Swal.fire({
+                title: 'Success!',
+                text: 'The information was saved successfully!',
+                icon: 'success'
+            });
+        },
+        error: (error) => {
+            console.error('Error updating Tuteur:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an error saving the information.',
+                icon: 'error'
+            });
+        }
+    });
+  }
+
+
   
 }

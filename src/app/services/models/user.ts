@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Subject } from '../models/subject';
+import { Tuteur } from './tuteur';
 export interface User {
   accountLocked?: boolean;
   accountNonExpired?: boolean;
@@ -24,4 +25,5 @@ export interface User {
   role?: 'TUTEUR' | 'ETUDIANT';
   subjects?: Array<Subject>;
   username?: string;
+  tuteur?: Tuteur;
 }

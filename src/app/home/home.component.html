@@ -151,7 +151,7 @@
                         </div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a href="#!" style="text-decoration-line: inherit;color: #3d3d3c;">{{ user.firstName }}
+                                <a [routerLink]="['/user-about-me', user.id]" style="text-decoration-line: inherit;color: #3d3d3c;">{{ user.firstName }}
                                     {{ user.lastName }}</a>
                             </h3>
                             <p class="display-30">{{ user.adress }}</p>
@@ -159,19 +159,19 @@
                             <div class="meta meta-style2">
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
+                                        <a  style="color: #3d3d3c;">
                                             <i class="fa fa-calendar"></i>
                                             {{ user.dateOfBirth | date }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
+                                        <a  style="color: #3d3d3c;">
                                             <i class="fa fa-user"></i>
                                             {{ user.role }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
-                                        <a href="#!" style="color: #3d3d3c;">
+                                        <a style="color: #3d3d3c;">
                                             <i class="fa fa-comments"></i>
                                             68
                                         </a>

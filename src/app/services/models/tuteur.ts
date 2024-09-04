@@ -2,7 +2,8 @@
 /* eslint-disable */
 import { User } from '../models/user';
 export interface Tuteur {
-  availability?: string;
+  skills?: string;
+  period?: string | number;
   educationlevel?: string;
   experience?: string;
   id?: number;
