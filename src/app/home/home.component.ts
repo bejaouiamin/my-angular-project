@@ -6,13 +6,11 @@ import { TokenService } from '../services/token/token.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { dateOfBirthValidator, passwordMatchValidator, passwordValidator } from 'src/validators/custom-validators';
 import { RegistrationRequest } from '../services/models/registration-request';
-import { Subject, Subject as SubjectModel, User } from '../services/models';
-import { SearchControllerService, UsercontrollerService } from '../services/services';
+import { Subject, Subject as SubjectModel, Tuteur, User } from '../services/models';
+import { SearchControllerService, TuteurcontrollerService, UsercontrollerService } from '../services/services';
 import { Subject as RxSubject } from 'rxjs';
 import { ForgotPassword$Params } from '../services/fn/auth-controller/forgot-password';
 import Swal from 'sweetalert2';
-
-
 
 @Component({
   selector: 'app-home',
@@ -38,11 +36,12 @@ export class HomeComponent implements OnInit {
     email: '',
     password: '',
     dateOfBirth: '',
-    role: undefined // initialize as undefined or one of the valid values
+    role: undefined 
   };
   errorMsg: Array<string> = [];
-  isLoggedIn = false; // Add this property to track the login state
-  
+  isLoggedIn = false; 
+  tuteurId!:number;
+  tuteurs:Tuteur [] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +50,7 @@ export class HomeComponent implements OnInit {
     private tokenService: TokenService,
     private userService: UsercontrollerService,
     private searchService: SearchControllerService,
+    private tuteurservice: TuteurcontrollerService
   ) { }
 
   ngOnInit(): void {
@@ -68,11 +68,12 @@ export class HomeComponent implements OnInit {
     this.isLoggedIn = !!this.tokenService.token;
 
     if (this.isLoggedIn) {
+      // First, fetch the user ID, then fetch the Tuteur based on the user ID
       this.fetchUserId();
     }
+    
     this.loadTeachers();
     this.loadSubjects();
-   
   }
 
 
@@ -95,6 +96,7 @@ export class HomeComponent implements OnInit {
         if (user.id !== undefined) {  // Type guard to ensure id is not undefined
           this.userId = user.id;
           console.log('User ID:', this.userId); // Log the user ID
+          this.fetchTuteurId(); 
         } else {
           console.error('User ID is undefined'); // Handle the case where ID is undefined
         }
@@ -105,6 +107,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  fetchTuteurId(): void {
+    const userId = this.userId; 
+    console.log('User ID being sent to API:', userId);
+    this.tuteurservice.getTuteurById({ id: userId }).subscribe({
+      next: (tuteur: Tuteur) => {
+        console.log('Tuteur received:', tuteur);
+        if (tuteur && tuteur.id !== undefined) {
+          this.tuteurId = tuteur.id;
+          console.log('Tuteur ID:', this.tuteurId);
+        } else {
+          console.error('Tuteur not found or ID is undefined');
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching Tuteur ID:', error);
+      }
+    });
+  }
+  
+  
   onSubmit1(): void {
     if (!this.search.subject || !this.search.adress) {
       alert('Please fill in both the subject and address before searching.');

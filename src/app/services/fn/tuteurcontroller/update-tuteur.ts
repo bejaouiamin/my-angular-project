@@ -9,14 +9,12 @@ import { RequestBuilder } from '../../request-builder';
 import { Tuteur } from '../../models/tuteur';
 
 export interface UpdateTuteur$Params {
-  id: number;
       body: Tuteur
 }
 
 export function updateTuteur(http: HttpClient, rootUrl: string, params: UpdateTuteur$Params, context?: HttpContext): Observable<StrictHttpResponse<Tuteur>> {
   const rb = new RequestBuilder(rootUrl, updateTuteur.PATH, 'put');
   if (params) {
-    rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
   }
 

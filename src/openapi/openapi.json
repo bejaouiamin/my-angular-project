@@ -162,52 +162,12 @@
         }
       }
     },
-    "/api/tuteurs/{id}": {
-      "get": {
-        "tags": [
-          "tuteurcontroller"
-        ],
-        "operationId": "getTuteurById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tuteur"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/tuteurs/updateTuteur": {
       "put": {
         "tags": [
           "tuteurcontroller"
         ],
         "operationId": "updateTuteur",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -228,28 +188,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "tuteurcontroller"
-        ],
-        "operationId": "deleteTuteur",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -770,6 +708,59 @@
         }
       }
     },
+    "/api/tuteurs/{id}": {
+      "get": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "getTuteurById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tuteur"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tuteurcontroller"
+        ],
+        "operationId": "deleteTuteur",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/sear/subjects": {
       "get": {
         "tags": [
@@ -1093,7 +1084,11 @@
           "experience": {
             "type": "string"
           },
-          "availability": {
+          "period": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "skills": {
             "type": "string"
           }
         }

@@ -51,6 +51,7 @@ export class ProfileComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     console.log('ID from route:', idParam);
   
+    // Convert route param to userId
     this.userId = Number(idParam);
   
     if (isNaN(this.userId)) {
@@ -58,40 +59,47 @@ export class ProfileComponent implements OnInit {
       return;
     }
   
-    // Load user details by ID
+    // Fetch user details using userId
     this.userservice.getUserById({ id: this.userId }).subscribe(
       (userData: User) => {
         this.user = userData;
-        console.log('User details loaded:', this.user);
-        console.log('User ID:', this.user.id);
-  
-        // Load tuteur details if tuteur is present
-        if (this.user.tuteur) {
-          // Assuming `this.user.tuteur` contains the necessary information
+        console.log('Full user object:', this.user);
+    
+        // Check if the user object contains tuteur information
+        if (this.user.tuteur && this.user.tuteur.id) {
           this.tuteur = this.user.tuteur;
+          this.tuteurId = this.user.tuteur.id;
+          console.log('Tuteur details loaded:', this.tuteur);
         } else {
-          console.error("Tuteur information is missing from the user object.");
+          
+          this.loadTuteur();
         }
       },
       error => {
-        console.error('Error loading user details', error);
+        console.error('Error loading user details:', error);
       }
     );
+    
   
     this.initMap();
     this.loadUserPicture();
+    
   }
   
-  loadTuteur(tuteurId: number): void {
-    this.tuteurservice.getTuteurById({ id: tuteurId }).subscribe({
+  
+  loadTuteur(): void {
+    this.tuteurservice.getTuteurById({ id: this.userId }).subscribe({
       next: (tuteur: Tuteur) => {
-        this.tuteur = tuteur;
-        if (!this.tuteur.id) {
-          console.error("Tuteur ID is not set. Cannot update without an ID.");
+        if (tuteur && tuteur.id !== undefined) {
+          this.tuteur = tuteur;
+          this.tuteurId = tuteur.id;
+          console.log('Tuteur fetched by userId:', this.tuteurId);
+        } else {
+          console.error('Tuteur not found or ID is undefined');
         }
       },
       error: (error) => {
-        console.error('Error fetching Tuteur:', error);
+        console.error('Error fetching Tuteur by userId:', error);
       }
     });
   }
@@ -315,12 +323,35 @@ export class ProfileComponent implements OnInit {
   }
 
   saveEducation(): void  {
-    // Ensure that the user object is properly set before saving
-    this.tuteur.user = this.user;  // Assuming `this.user` is the currently logged-in user with a valid ID
-
-    this.tuteurservice.createTuteur({ body: this.tuteur }).subscribe({
+    // Ensure the Tuteur object has the correct User with an ID
+    if (!this.user || !this.user.id) {
+      console.error('User is not set or User ID is missing.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'User information is missing. Cannot update without a User ID.',
+        icon: 'error'
+      });
+      return;
+    }
+  
+    // Set the user object inside the Tuteur
+    this.tuteur.user = this.user;  // Ensure the user property is set
+  
+    // Ensure the ID is set
+    if (!this.tuteur.id) {
+      console.error('Tuteur ID is not set. Cannot update without an ID.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Tuteur ID is missing. Cannot update without an ID.',
+        icon: 'error'
+      });
+      return;
+    }
+  
+    // Call the updateTuteur function to send the request to the backend
+    this.tuteurservice.updateTuteur({ body: this.tuteur }).subscribe({
       next: (response) => {
-        console.log('Tuteur created with education details:', response);
+        console.log('Tuteur updated with Education level details:', response);
         Swal.fire({
           title: 'Success!',
           text: 'The information was saved successfully!',
@@ -328,7 +359,7 @@ export class ProfileComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Error creating Tuteur:', error);
+        console.error('Error updating Tuteur:', error);
         Swal.fire({
           title: 'Error!',
           text: 'There was an error saving the information.',
@@ -339,48 +370,52 @@ export class ProfileComponent implements OnInit {
   }
 
   saveExperience(): void {
-    if (typeof this.tuteur.period === 'string' || typeof this.tuteur.period === 'number') {
-        const periodStr = this.tuteur.period.toString(); // Convert period to string if it's a number
-        const matches = periodStr.match(/\d+/); // Extract digits from the string
-        if (matches) {
-            this.tuteur.period = parseInt(matches[0], 10); // Convert back to an integer
-        } else {
-            this.tuteur.period = undefined; // Handle invalid input by setting it to undefined
-        }
+    // Ensure the Tuteur object has the correct User with an ID
+    if (!this.user || !this.user.id) {
+      console.error('User is not set or User ID is missing.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'User information is missing. Cannot update without a User ID.',
+        icon: 'error'
+      });
+      return;
     }
-
-    this.tuteur.user = this.user;
-
+  
+    // Set the user object inside the Tuteur
+    this.tuteur.user = this.user;  // Ensure the user property is set
+  
     // Ensure the ID is set
     if (!this.tuteur.id) {
-        console.error("Tuteur ID is not set. Cannot update without an ID.");
-        Swal.fire({
-            title: 'Error!',
-            text: 'Tuteur ID is missing. Cannot update without an ID.',
-            icon: 'error'
-        });
-        return;
+      console.error('Tuteur ID is not set. Cannot update without an ID.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Tuteur ID is missing. Cannot update without an ID.',
+        icon: 'error'
+      });
+      return;
     }
-
-    this.tuteurservice.updateTuteur({ id: this.tuteur.id, body: this.tuteur }).subscribe({
-        next: (response) => {
-            console.log('Tuteur updated with experience details:', response);
-            Swal.fire({
-                title: 'Success!',
-                text: 'The information was saved successfully!',
-                icon: 'success'
-            });
-        },
-        error: (error) => {
-            console.error('Error updating Tuteur:', error);
-            Swal.fire({
-                title: 'Error!',
-                text: 'There was an error saving the information.',
-                icon: 'error'
-            });
-        }
+  
+    // Call the updateTuteur function to send the request to the backend
+    this.tuteurservice.updateTuteur({ body: this.tuteur }).subscribe({
+      next: (response) => {
+        console.log('Tuteur updated with experience details:', response);
+        Swal.fire({
+          title: 'Success!',
+          text: 'The information was saved successfully!',
+          icon: 'success'
+        });
+      },
+      error: (error) => {
+        console.error('Error updating Tuteur:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'There was an error saving the information.',
+          icon: 'error'
+        });
+      }
     });
   }
+  
 
 
   

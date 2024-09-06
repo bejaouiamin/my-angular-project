@@ -53,7 +53,7 @@ export class TuteurcontrollerService extends BaseService {
   }
 
   /** Path part for operation `updateTuteur()` */
-  static readonly UpdateTuteurPath = '/api/tuteurs/updateTuteur';
+  static readonly UpdateTuteurPath = '/api/tuteurs/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
