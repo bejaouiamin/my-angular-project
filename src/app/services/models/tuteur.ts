@@ -5,7 +5,7 @@ export interface Tuteur {
   educationlevel?: string;
   experience?: string;
   id?: number;
-  period?: number;
+  period?: number | string;
   skills?: string;
   title?: string;
   user?: User;

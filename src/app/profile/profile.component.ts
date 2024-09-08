@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
   subjects: Subject[] = [];
   newSubjectName: string = '';  // This will hold the value of the input field
   tuteur: Tuteur = {};
-  tuteurId!:number;
+  tuteurId!: number;
 
   constructor(
     private ngZone: NgZone,
@@ -50,28 +50,28 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     console.log('ID from route:', idParam);
-  
+
     // Convert route param to userId
     this.userId = Number(idParam);
-  
+
     if (isNaN(this.userId)) {
       console.error('User ID is not set or invalid');
       return;
     }
-  
+
     // Fetch user details using userId
     this.userservice.getUserById({ id: this.userId }).subscribe(
       (userData: User) => {
         this.user = userData;
         console.log('Full user object:', this.user);
-    
+
         // Check if the user object contains tuteur information
         if (this.user.tuteur && this.user.tuteur.id) {
           this.tuteur = this.user.tuteur;
           this.tuteurId = this.user.tuteur.id;
           console.log('Tuteur details loaded:', this.tuteur);
         } else {
-          
+
           this.loadTuteur();
         }
       },
@@ -79,14 +79,14 @@ export class ProfileComponent implements OnInit {
         console.error('Error loading user details:', error);
       }
     );
-    
-  
+
+
     this.initMap();
     this.loadUserPicture();
-    
+
   }
-  
-  
+
+
   loadTuteur(): void {
     this.tuteurservice.getTuteurById({ id: this.userId }).subscribe({
       next: (tuteur: Tuteur) => {
@@ -103,7 +103,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  
+
 
   onSubmit() {
     console.log('User object before submission:', this.user);
@@ -282,17 +282,17 @@ export class ProfileComponent implements OnInit {
         });
         return;
       }
-  
+
       const newSubject: Subject = {
         name: this.newSubjectName,
         createdDate: new Date().toISOString(),
       };
-  
+
       const params: AddSubject$Params = {
         body: newSubject,
         userId: user.id,
       };
-  
+
       this.searchService.addSubject(params).subscribe({
         next: (response) => {
           console.log('Received response:', response);
@@ -318,40 +318,17 @@ export class ProfileComponent implements OnInit {
             });
           }
         }
-      });      
+      });
     });
   }
 
-  saveEducation(): void  {
-    // Ensure the Tuteur object has the correct User with an ID
-    if (!this.user || !this.user.id) {
-      console.error('User is not set or User ID is missing.');
-      Swal.fire({
-        title: 'Error!',
-        text: 'User information is missing. Cannot update without a User ID.',
-        icon: 'error'
-      });
-      return;
-    }
-  
+  saveEducation(): void {
     // Set the user object inside the Tuteur
     this.tuteur.user = this.user;  // Ensure the user property is set
-  
-    // Ensure the ID is set
-    if (!this.tuteur.id) {
-      console.error('Tuteur ID is not set. Cannot update without an ID.');
-      Swal.fire({
-        title: 'Error!',
-        text: 'Tuteur ID is missing. Cannot update without an ID.',
-        icon: 'error'
-      });
-      return;
-    }
-  
     // Call the updateTuteur function to send the request to the backend
-    this.tuteurservice.updateTuteur({ body: this.tuteur }).subscribe({
+    this.tuteurservice.createTuteur({ body: this.tuteur }).subscribe({
       next: (response) => {
-        console.log('Tuteur updated with Education level details:', response);
+        console.log('Tuteur created with Education level details:', response);
         Swal.fire({
           title: 'Success!',
           text: 'The information was saved successfully!',
@@ -370,6 +347,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveExperience(): void {
+    // Convert period from string (if entered as "10 ans") to an integer
+    if (typeof this.tuteur.period === 'string') {
+      const extractedNumber = parseInt(this.tuteur.period.replace(/\D/g, ''), 10); // Remove any non-numeric characters
+      this.tuteur.period = extractedNumber;
+    }
     // Ensure the Tuteur object has the correct User with an ID
     if (!this.user || !this.user.id) {
       console.error('User is not set or User ID is missing.');
@@ -380,10 +362,10 @@ export class ProfileComponent implements OnInit {
       });
       return;
     }
-  
+
     // Set the user object inside the Tuteur
     this.tuteur.user = this.user;  // Ensure the user property is set
-  
+
     // Ensure the ID is set
     if (!this.tuteur.id) {
       console.error('Tuteur ID is not set. Cannot update without an ID.');
@@ -394,7 +376,7 @@ export class ProfileComponent implements OnInit {
       });
       return;
     }
-  
+
     // Call the updateTuteur function to send the request to the backend
     this.tuteurservice.updateTuteur({ body: this.tuteur }).subscribe({
       next: (response) => {
@@ -415,8 +397,8 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  
 
 
-  
+
+
 }

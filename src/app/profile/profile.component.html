@@ -77,9 +77,9 @@
                                                 <label for="bio">Biography</label>
                                                 <textarea rows="2" class="form-control" id="bio" [(ngModel)]="user.bio"
                                                     name="bio" placeholder="Tell something about yourself"
-                                                    maxlength="255"></textarea>
-                                                <small *ngIf="user.bio?.length === 255" class="error-message">
-                                                    You have reached the maximum of 255 characters.
+                                                    maxlength="3000"></textarea>
+                                                <small *ngIf="user.bio?.length === 3000" class="error-message">
+                                                    You have reached the maximum of 3000 characters.
                                                 </small>
                                             </div>
                                         </div>
