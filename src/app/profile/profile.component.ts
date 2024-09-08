@@ -36,6 +36,8 @@ export class ProfileComponent implements OnInit {
   newSubjectName: string = '';  // This will hold the value of the input field
   tuteur: Tuteur = {};
   tuteurId!: number;
+  skillsInput: string = '';
+  skillsPercentage: number = 0; 
 
   constructor(
     private ngZone: NgZone,
@@ -397,8 +399,16 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
-
+  addSkills(): void {
+    if (this.skillsInput.trim() && this.skillsPercentage > 0 && this.skillsPercentage <= 100) {
+      const newSkills = this.skillsInput.split(',').map(skill => ({
+        name: skill.trim(),
+        percentage: this.skillsPercentage // Set percentage for each skill
+      }));
+      this.tuteur.skills = [...(this.tuteur.skills || []), ...newSkills];
+      
+    }
+  }
 
 
 }

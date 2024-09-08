@@ -1054,14 +1054,26 @@
           "username": {
             "type": "string"
           },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
           "credentialsNonExpired": {
             "type": "boolean"
           },
           "accountNonExpired": {
             "type": "boolean"
+          }
+        }
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          "accountNonLocked": {
-            "type": "boolean"
+          "percentage": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1089,7 +1101,10 @@
             "format": "int32"
           },
           "skills": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Skill"
+            }
           }
         }
       },

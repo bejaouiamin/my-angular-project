@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Tuteur } from '../models';
 import { Subject } from '../models/subject';
+import { Tuteur } from './tuteur';
 export interface User {
   tuteur?: Tuteur; 
   accountLocked?: boolean;

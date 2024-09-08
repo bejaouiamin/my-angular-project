@@ -292,12 +292,18 @@
                                         <input type="text" class="form-control" [(ngModel)]="tuteur.experience" name="experience" id="experience">
                                     </div>
                                     <div class="form-group">
-                                        <label for="period">Period</label>
-                                        <input type="text" class="form-control" [(ngModel)]="tuteur.period" name="period" id="period">
+                                        <label for="skills">Skills (comma-separated)</label>
+                                        <input type="text" class="form-control" [(ngModel)]="skillsInput" name="skills" id="skills">
                                     </div>
                                     <div class="form-group">
-                                        <label for="skills">Skills</label>
-                                        <input type="text" class="form-control" [(ngModel)]="tuteur.skills" name="skills" id="skills">
+                                        <label for="percentage">Skill Percentage</label>
+                                        <input type="number" class="form-control" [(ngModel)]="skillsPercentage" name="percentage" id="percentage" min="0" max="100">
+                                    </div>
+                                    <button (click)="addSkills()" type="button" class="btn btn-primary">Add Skills</button>
+                                    
+                                    <div class="form-group">
+                                        <label for="period">Period</label>
+                                        <input type="text" class="form-control" [(ngModel)]="tuteur.period" name="period" id="period">
                                     </div>
 
                                     <button (click)="saveExperience()" type="button" class="btn btn-primary">Save</button>
