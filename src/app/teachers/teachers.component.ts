@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../services/models/user';
 import { Router } from '@angular/router';
 import { UsercontrollerService } from '../services/services/usercontroller.service';
+import { SearchControllerService } from '../services/services';
 
 @Component({
   selector: 'app-teachers',
@@ -12,7 +13,17 @@ import { UsercontrollerService } from '../services/services/usercontroller.servi
 export class TeachersComponent implements OnInit {
 
   users: User[] = [];
-  constructor(private router: Router,private userService: UsercontrollerService) { }
+  search = {
+    subject: '',
+    adress: ''
+  };
+
+  constructor(
+    private router: Router,
+    private userService: UsercontrollerService,
+    private searchService: SearchControllerService,
+
+  ) { }
 
   ngOnInit(): void {
     this.loadTeachers();
@@ -36,6 +47,30 @@ export class TeachersComponent implements OnInit {
     }
     return './assets/images/Profile_avatar.png'; // Fallback image
   }
+
+  onSubmit(): void {
+    this.searchService.searchTutors({
+      subject: this.search.subject,
+      adress: this.search.adress
+    }).subscribe({
+      next: (data: User[]) => {
+        if (data.length === 0) {
+          alert("No tutors found for the specified criteria.");
+        } else {
+          console.log(data);
+          this.users = data;
+        }
+      },
+      error: (error) => {
+        if (error.status === 404) {
+          alert("No tutors found with the specified criteria.");
+        } else {
+          console.error('Error fetching tutors:', error);
+        }
+      }
+    });
+  }
+
 
 
 

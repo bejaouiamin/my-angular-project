@@ -16,6 +16,7 @@ export class UserAboutMeComponent implements OnInit {
   user: User = {};  
   tuteur: Tuteur = {};
   userId!: number;
+  tuteurId!:number;
 
   constructor( 
     private userservice: UsercontrollerService,
@@ -26,28 +27,56 @@ export class UserAboutMeComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     const idParam = this.route.snapshot.paramMap.get('id');
     console.log('ID from route:', idParam);
-
+  
+    // Convert route param to userId
     this.userId = Number(idParam);
-
+  
     if (isNaN(this.userId)) {
       console.error('User ID is not set or invalid');
-
+      return;
     }
-    // Load user details by ID
+  
+    // Fetch user details using userId
     this.userservice.getUserById({ id: this.userId }).subscribe(
       (userData: User) => {
         this.user = userData;
-        console.log('User details loaded:', this.user);
-        console.log('User ID:', this.user.id);
+        console.log('Full user object:', this.user);
+    
+        // Check if the user object contains tuteur information
+        if (this.user.tuteur && this.user.tuteur.id) {
+          this.tuteur = this.user.tuteur;
+          this.tuteurId = this.user.tuteur.id;
+          console.log('Tuteur details loaded:', this.tuteur);
+        } else {
+          
+          this.loadTuteur();
+        }
       },
       error => {
-        console.error('Error loading user details', error);
+        console.error('Error loading user details:', error);
       }
     );
+    
   }
+  loadTuteur(): void {
+    this.tuteurservice.getTuteurById({ id: this.userId }).subscribe({
+      next: (tuteur: Tuteur) => {
+        if (tuteur && tuteur.id !== undefined) {
+          this.tuteur = tuteur;
+          this.tuteurId = tuteur.id;
+          console.log('Tuteur fetched by userId:', this.tuteurId);
+        } else {
+          console.error('Tuteur not found or ID is undefined');
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching Tuteur by userId:', error);
+      }
+    });
+  }
+  
 
   getPictureUrl(base64String?: string): string {
     if (base64String) {
