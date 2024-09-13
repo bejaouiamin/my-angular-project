@@ -399,16 +399,35 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
   addSkills(): void {
     if (this.skillsInput.trim() && this.skillsPercentage > 0 && this.skillsPercentage <= 100) {
-      const newSkills = this.skillsInput.split(',').map(skill => ({
-        name: skill.trim(),
-        percentage: this.skillsPercentage // Set percentage for each skill
-      }));
-      this.tuteur.skills = [...(this.tuteur.skills || []), ...newSkills];
-      
-    }
-  }
+        const newSkills = this.skillsInput.split(',').map(skill => ({
+            name: skill.trim(),
+            percentage: this.skillsPercentage // Set percentage for each skill
+        }));
+        
+        this.tuteur.skills = [...(this.tuteur.skills || []), ...newSkills];
+        
+        // Show success alert
+        Swal.fire({
+            title: 'Success!',
+            text: 'Skills added successfully!',
+            icon: 'success',
+            timer: 2000, // Optional: auto-close the alert after 2 seconds
+            showConfirmButton: false // Optional: hides the "OK" button
+        });
 
+        // Reset the input fields after adding the skills
+        this.skillsInput = '';
+        this.skillsPercentage = 0;
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter valid skills and a percentage between 1 and 100.',
+            icon: 'error'
+        });
+    }
+}
 
 }
