@@ -428,6 +428,6 @@ export class ProfileComponent implements OnInit {
             icon: 'error'
         });
     }
-}
+  }
 
 }

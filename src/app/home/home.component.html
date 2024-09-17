@@ -139,33 +139,34 @@
         <div class="sec-title centered">
             <h2>Private Teachers</h2>
         </div>
-
         <div class="container">
             <div class="row mt-n5">
-                <div *ngFor="let user of users" class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".2s"
-                    style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <!-- Display a maximum of 6 users with the role 'tuteur' -->
+                <div *ngFor="let user of users | slice:0:6" class="col-md-6 col-lg-4 mt-5 wow fadeInUp"
+                    data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                     <div class="blog-grid">
                         <div class="blog-grid-img position-relative">
                             <img alt="img" [src]="getPictureUrl(user.picture)">
-
                         </div>
                         <div class="blog-grid-text p-4">
                             <h3 class="h5 mb-3">
-                                <a [routerLink]="['/user-about-me', user.id]" style="text-decoration-line: inherit;color: #3d3d3c;">{{ user.firstName }}
-                                    {{ user.lastName }}</a>
+                                <a [routerLink]="['/user-about-me', user.id]"
+                                    style="text-decoration-line: inherit;color: #3d3d3c;">
+                                    {{ user.firstName }} {{ user.lastName }}
+                                </a>
                             </h3>
                             <p class="display-30">{{ user.adress }}</p>
 
                             <div class="meta meta-style2">
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
-                                        <a  style="color: #3d3d3c;">
+                                        <a style="color: #3d3d3c;">
                                             <i class="fa fa-calendar"></i>
                                             {{ user.dateOfBirth | date }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
-                                        <a  style="color: #3d3d3c;">
+                                        <a style="color: #3d3d3c;">
                                             <i class="fa fa-user"></i>
                                             {{ user.role }}
                                         </a>
@@ -190,10 +191,11 @@
 
         <!-- Lower Box -->
         <div class="lower-box text-center" style="margin-top: 1%;">
-            <a href="courses.html" class="courses">View all Teachers</a>
+            <a routerLink="/teachers" class="courses">View all Teachers</a>
         </div>
     </section>
     <!-- End Courses Section -->
+
 
     <!-- Benefits Section -->
     <section class="benefits-section" style="background-image:url(assets/images/background/2.png)">
@@ -232,7 +234,7 @@
                             <img src="assets/images/resource/category-1.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Graphic Designs</a>
+                                    <a routerLink="/teachers">Graphic Designs</a>
                                 </h4>
                             </div>
                         </div>
@@ -246,7 +248,7 @@
                             <img src="assets/images/resource/category-2.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Digital Marketing</a>
+                                    <a routerLink="/teachers">Digital Marketing</a>
                                 </h4>
                             </div>
                         </div>
@@ -260,7 +262,7 @@
                             <img src="assets/images/resource/category-3.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Financial Trading</a>
+                                    <a routerLink="/teachers">Financial Trading</a>
                                 </h4>
                             </div>
                         </div>
@@ -274,7 +276,7 @@
                             <img src="assets/images/resource/category-4.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Business</a>
+                                    <a routerLink="/teachers">Business</a>
                                 </h4>
                             </div>
                         </div>
@@ -288,7 +290,7 @@
                             <img src="assets/images/resource/category-5.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Office Productivity</a>
+                                    <a routerLink="/teachers">Office Productivity</a>
                                 </h4>
                             </div>
                         </div>
@@ -302,7 +304,7 @@
                             <img src="assets/images/resource/category-6.png" alt="" />
                             <div class="content">
                                 <h4>
-                                    <a href="#">Health & Fitness</a>
+                                    <a routerLink="/teachers">Health & Fitness</a>
                                 </h4>
                             </div>
                         </div>
@@ -313,7 +315,7 @@
 
             <!-- Lower Box -->
             <div class="lower-box text-center">
-                <a href="courses.html" class="view-more">View more categories</a>
+                <a routerLink="/teachers" class="view-more">View more categories</a>
             </div>
 
         </div>
@@ -462,8 +464,7 @@
                             <form class="form-signin">
                                 <h1 class="h3 mb-3 text-center">Sign in</h1>
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-danger btn-block"><i
-                                            class="fa fa-google"></i>
+                                    <button class="btn btn-danger btn-block"><i class="fa fa-google"></i>
                                         Sign in with Google</button>
                                 </div>
                                 <p class="text-center my-3">OR</p>
@@ -588,14 +589,14 @@
                             </form>
                         </div>
                     </div>
-                     <!-- Forgot Password Form as a hidden popup -->
+                    <!-- Forgot Password Form as a hidden popup -->
                     <div id="forgotPasswordForm" style="display: none;">
                         <form class="form-forgot" (ngSubmit)="forgotPassword()">
                             <h1 class="h3 mb-3 text-center">Reset Password</h1>
                             <div class="mb-3">
                                 <label for="forgotEmail" class="form-label">Email address</label>
-                                <input type="email" id="forgotEmail" class="form-control"
-                                    placeholder="Email address" [(ngModel)]="forgotPasswordEmail" name="forgotPasswordEmail" required autofocus>
+                                <input type="email" id="forgotEmail" class="form-control" placeholder="Email address"
+                                    [(ngModel)]="forgotPasswordEmail" name="forgotPasswordEmail" required autofocus>
                             </div>
                             <button class="btn btn-primary btn-block" type="submit">Send Reset Link</button>
                         </form>

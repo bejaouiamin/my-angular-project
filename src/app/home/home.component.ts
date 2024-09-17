@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     email: '',
     password: '',
     dateOfBirth: '',
-    role: undefined 
+    role: 'ETUDIANT'
   };
   errorMsg: Array<string> = [];
   isLoggedIn = false; 
@@ -129,7 +129,14 @@ export class HomeComponent implements OnInit {
   
   onSubmit1(): void {
     if (!this.search.subject || !this.search.adress) {
-      alert('Please fill in both the subject and address before searching.');
+      // Show success alert
+      Swal.fire({
+        title: 'Warning!',
+        text: 'Please fill in both the subject and address before searching.',
+        icon: 'warning',
+        timer: 2000, // Optional: auto-close the alert after 2 seconds
+        showConfirmButton: false // Optional: hides the "OK" button
+    });
       return;
     }
 
@@ -139,7 +146,13 @@ export class HomeComponent implements OnInit {
     }).subscribe({
       next: (data: User[]) => {
         if (data.length === 0) {
-          alert("No tutors found for the specified criteria.");
+          Swal.fire({
+            title: 'Error',
+            text: 'No tutors found for the specified criteria.',
+            icon: 'error',
+            timer: 2000, // Optional: auto-close the alert after 2 seconds
+            showConfirmButton: false // Optional: hides the "OK" button
+        });
         } else {
           console.log(data);
           this.users = data;
@@ -147,7 +160,13 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         if (error.status === 404) {
-          alert("No tutors found with the specified criteria.");
+          Swal.fire({
+            title: 'Error',
+            text: 'No tutors found for the specified criteria.',
+            icon: 'error',
+            timer: 2000, // Optional: auto-close the alert after 2 seconds
+            showConfirmButton: false // Optional: hides the "OK" button
+        });
         } else {
           console.error('Error fetching tutors:', error);
         }
@@ -175,7 +194,19 @@ export class HomeComponent implements OnInit {
         this.tokenService.token = res.token as string;
         console.log('Set Token:', res.token); // Log the token being set
         this.isLoggedIn = true; // Update login state on successful login
-        location.reload(); // Refresh the page to trigger `ngOnInit`
+  
+        // Show success alert
+        Swal.fire({
+          title: 'Success!',
+          text: 'You have successfully logged in.',
+          icon: 'success',
+          timer: 2000, // Auto-close the alert after 2 seconds
+          showConfirmButton: false
+        }).then(() => {
+          // Reload the page after the alert has closed
+          location.reload();
+        });
+  
       },
       error: (err) => {
         console.log(err);
@@ -184,15 +215,35 @@ export class HomeComponent implements OnInit {
         } else {
           this.errorMsg.push(err.error.errorMsg);
         }
+  
+        // Show error alert
+        Swal.fire({
+          title: 'Error!',
+          text: 'Login failed. Please check your credentials.',
+          icon: 'error',
+          timer: 2000, // Auto-close the alert after 2 seconds
+          showConfirmButton: false
+        });
       }
     });
   }
+  
+  
 
   register() {
     this.authService.register({
       body: this.registerRequest
     }).subscribe({
       next: () => {
+        // Show success alert
+        Swal.fire({
+          title: 'Success!',
+          text: 'Registration successful. Please activate your account.',
+          icon: 'success',
+          timer: 2000, // Optional: auto-close the alert after 2 seconds
+          showConfirmButton: false // Optional: hides the "OK" button
+        });
+  
         this.router.navigate(['activate-account']);
       },
       error: (err) => {
@@ -202,9 +253,19 @@ export class HomeComponent implements OnInit {
           console.log(err);
           this.errorMsg.push('An unexpected error occurred');
         }
+  
+        // Show error alert
+        Swal.fire({
+          title: 'Error!',
+          text: 'Registration failed. Please try again.',
+          icon: 'error',
+          timer: 2000, // Optional: auto-close the alert after 2 seconds
+          showConfirmButton: false // Optional: hides the "OK" button
+        });
       }
     });
   }
+  
 
   logout() {
     this.tokenService.token = null; // Clear the token
